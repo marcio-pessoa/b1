@@ -1,4 +1,4 @@
-#b1 Mark I - Self Balancing Robot
+# b1 Mark I - Self Balancing Robot
 
 ## Introduction
 
