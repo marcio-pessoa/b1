@@ -21,4 +21,7 @@ Technical specification:
 - Mount: 12mm Hex
 - Offset: 6mm
 
+[Main page]
+
 ---
+[Main page]: ../README.md
