@@ -1,3 +1,15 @@
 [submodule "b1/project"]
 	path = b1/project
 	url = https://github.com/marcio-pessoa/Project.git
+[submodule "b1/temperature"]
+	path = b1/temperature
+	url = https://github.com/marcio-pessoa/Temperature.git
+[submodule "b1/blinker"]
+	path = b1/blinker
+	url = https://github.com/marcio-pessoa/Blinker.git
+[submodule "b1/timer"]
+	path = b1/timer
+	url = https://github.com/marcio-pessoa/Timer.git
+[submodule "b1/alarm"]
+	path = b1/alarm
+	url = https://github.com/marcio-pessoa/Alarm.git
