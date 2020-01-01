@@ -24,7 +24,7 @@ Project b1("b1",  // Platform
            "Self Balancing Robot",  // Name
            "0.1",  // Version
            "2020-01-16",  // Version date
-           "1",  // Serial number
+           "8",  // Serial number
            "Copyright 2019-2020 Marcio Pessoa",  // Owner
            "GPLv2. There is NO WARRANTY.",  // License
            "https://github.com/marcio-pessoa/b1",  // Website
