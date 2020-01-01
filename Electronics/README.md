@@ -97,6 +97,7 @@ Technical specification:
   - Motor: 33 x 23mm (D x L)
   - Gear: 37 x 22mm (D x L)
 - Net Weight: 155g
+
 ![GM37-520](Pictures/GM37-520.jpg)
 
 [Main page]

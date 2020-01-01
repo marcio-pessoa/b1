@@ -3,9 +3,9 @@
 ## Mechanics
 
 ### Case
-- Width: 105 mm
-- Height: 153 mm
-- Depth: 45 mm
+- Width: ??? mm
+- Height: ??? mm
+- Depth: ??? mm
 
 ### Wheels
 Technical specification:
