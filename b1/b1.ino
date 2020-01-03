@@ -9,7 +9,7 @@
  * Contributors: none
  */
 
-#include <Arduino.h>      // Arduino - Main library
+#include <Arduino.h>      // Main library
 #include <Project.h>      // Basic project definitions
 #include <Blinker.h>      // Blink leds nicely
 #include <Timer.h>        // Timer library with nice features
@@ -31,7 +31,7 @@ Project b1("b1",  // Platform
            "Marcio Pessoa <marcio.pessoa@gmail.com>");  // Contact
 
 // Status LED
-Blinker status_led(led_ok_pin);
+Blinker status_led(led_status_pin);
 
 // Teperature sensor
 Temperature lm35;
