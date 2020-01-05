@@ -4,20 +4,18 @@
 
 ### Case
 - Width: ??? mm
-- Height: ??? mm
+- Height: 127 mm
 - Depth: ??? mm
 
 ### Wheels
 Technical specification:
-- Brand: Kforce Racing
-- Fit: 1/10 scale Buggy Car
+- Brand: Kforce Racing (1/10 scale Buggy Car)
 - Tyre: Rubber
-- Wheel Hub: Original
-- Front Tyre: 25026+27007
-- Rear Tyre: 25027+27008
+- Small Tyre: 25026+27007
+- Big Tyre: 25027+27008
 - Set: 4Pcs
 - Diameter: 90/60mm (With/Without Tires)
-- Width: 31mm/37mm (Front/Rear)
+- Width: 31mm/37mm (Small/Big)
 - Mount: 12mm Hex
 - Offset: 6mm
 

@@ -39,21 +39,21 @@ Arduino Leonardo diagram by http://busyducks.com/ascii-art-arduinos
 #### Pin designation
  id | pin |   type    | direction |               description
 ----|-----|-----------|-----------|--------------------------------------------
-  0 |   0 | digital   | input     | Serial communication
-  1 |   1 | digital   | output    | Serial communication
-  2 |   0 | -         | -         | -
-  3 |   1 | -         | -         | -
-  4 |   - | -         | -         | -
-  5 |   5 | -         | -         | -
-  6 |   6 | -         | -         | -
-  7 |   - | -         | -         | -
-  8 |   - | -         | -         | -
-  9 |   9 | -         | -         | -
- 10 |  10 | -         | -         | -
- 11 |  11 | -         | -         | -
- 12 |   - | -         | -         | -
+  0 |   0 | digital   | input     | Serial communication (and Bluetooth)
+  1 |   1 | digital   | output    | Serial communication (and Bluetooth)
+  2 |   - | -         | -         | -
+  3 |   - | -         | -         | -
+  4 |   4 | digital   | input     | Motor A encoder phase
+  5 |   5 | digital   | input     | Motor B encoder phase
+  6 |   6 | digital   | output    | Motor B direction
+  7 |   7 | digital   | output    | Motor B direction
+  8 |   8 | digital   | output    | Motor A direction
+  9 |   9 | PWM       | output    | Motor B speed
+ 10 |  10 | PWM       | output    | Motor A speed
+ 11 |   - | -         | -         | -
+ 12 |  12 | digital   | output    | Motor A direction
  13 |  13 | PWM       | output    | Status LED
- 14 |     | -         | -         | -
+ 14 |   - | -         | -         | -
  15 |   - | -         | -         | -
  16 |   - | -         | -         | -
  17 |   - | -         | -         | -
