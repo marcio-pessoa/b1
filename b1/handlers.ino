@@ -13,7 +13,7 @@ void DemonstrationHandler() {
 }
 
 void HealthCheckHandler() {
-
+  status_led.blink();
 }
 
 void NotificationHandler() {
