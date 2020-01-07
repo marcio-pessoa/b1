@@ -1,7 +1,7 @@
 # b1 Mark I - Self Balancing Robot
 
 ## Introduction
-b1m1 is just a nice Self Balancing Robot.
+b1 is just a nice Self Balancing Robot.
 
 ## Cloning
 ```
