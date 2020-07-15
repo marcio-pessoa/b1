@@ -50,7 +50,7 @@ Arduino Leonardo diagram by http://busyducks.com/ascii-art-arduinos
   8 |   8 | digital   | output    | Motor A direction
   9 |   9 | PWM       | output    | Motor B speed
  10 |  10 | PWM       | output    | Motor A speed
- 11 |   - | -         | -         | -
+ 11 |  11 | PWM       | output    | Buzzer
  12 |  12 | digital   | output    | Motor A direction
  13 |  13 | PWM       | output    | Status LED
  14 |   - | -         | -         | -

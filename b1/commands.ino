@@ -22,38 +22,38 @@
  *   void
  */
 void CommandM100(char letter = 0) {
-  if (letter == 'G' || letter == 0) {
-    echoln(F("G00\tRapid positioning"));
-    echoln(F("G01\tLinear interpolation"));
+  //if (letter == 'G' || letter == 0) {
+    //echoln(F("G00\tRapid positioning"));
+    //echoln(F("G01\tLinear interpolation"));
     //  echoln(F("G02\tCircular interpolation, clockwise"));
     //  echoln(F("G03\tCircular interpolation, counterclockwise"));
-    echoln(F("G06\tDemonstration mode"));
-    echoln(F("G28\tHome axes"));
-    echoln(F("G90\tAbsolute programming"));
-    echoln(F("G91\tIncremental programming"));
-    echoln(F("G132\tCalibrate axes"));
-  }
+    //echoln(F("G06\tDemonstration mode"));
+    //echoln(F("G28\tHome axes"));
+    //echoln(F("G90\tAbsolute programming"));
+    //echoln(F("G91\tIncremental programming"));
+    //echoln(F("G132\tCalibrate axes"));
+  //}
   if (letter == 'M' || letter == 0) {
-    echoln(F("M0\tCompulsory stop"));
-    echoln(F("M15\tSystem info"));
-    echoln(F("M17\tAttach motors"));
-    echoln(F("M18\tDetach motors; same as M84"));
-    echoln(F("M70\tLaser status"));
-    echoln(F("M03\tLaser on"));
-    echoln(F("M05\tLaser off"));
-    echoln(F("M80\tPower on"));
-    echoln(F("M81\tPower off"));
-    echoln(F("M86\tAxes information"));
-    echoln(F("M87\tIs all done?"));
-    echoln(F("M88\tDistance measure"));
-    echoln(F("M89\tMemory information"));
-    echoln(F("M90\tFan information"));
-    echoln(F("M91\tTemperature information"));
+    //echoln(F("M0\tCompulsory stop"));
+    //echoln(F("M15\tSystem info"));
+    //echoln(F("M17\tAttach motors"));
+    //echoln(F("M18\tDetach motors; same as M84"));
+    //echoln(F("M70\tLaser status"));
+    //echoln(F("M03\tLaser on"));
+    //echoln(F("M05\tLaser off"));
+    //echoln(F("M80\tPower on"));
+    //echoln(F("M81\tPower off"));
+    //echoln(F("M86\tAxes information"));
+    //echoln(F("M87\tIs all done?"));
+    //echoln(F("M88\tDistance measure"));
+    //echoln(F("M89\tMemory information"));
+    //echoln(F("M90\tFan information"));
+    //echoln(F("M91\tTemperature information"));
     echoln(F("M92\tSystem information"));
     echoln(F("M99\tReset system"));
-    echoln(F("M100\tThis help message"));
-    echoln(F("M111\tDebug mode"));
-    echoln(F("M124\tStop all axes"));
+    //echoln(F("M100\tThis help message"));
+    //echoln(F("M111\tDebug mode"));
+    //echoln(F("M124\tStop all axes"));
   }
 }
 
@@ -70,7 +70,7 @@ void CommandM100(char letter = 0) {
  * Returns
  *   void
  */
-bool CommandM80() {
+//bool CommandM80() {
   // power.set(HIGH);
   // for (byte i=0; i<10; i++) {
     // delay(100);
@@ -80,7 +80,7 @@ bool CommandM80() {
     // }
   // }
   // return true;
-}
+//}
 
 /*
  *
@@ -95,7 +95,7 @@ bool CommandM80() {
  * Returns
  *   void
  */
-bool CommandM81() {
+//bool CommandM81() {
   // CommandM0();  //  Compulsory stop
   // CommandM72();  //  Laser off
   // standby_done = true;
@@ -104,7 +104,7 @@ bool CommandM81() {
   // standby.disable();
   // power.set(LOW);
   // return power.status();
-}
+//}
 
 /*
  *
@@ -121,10 +121,6 @@ bool CommandM81() {
  */
 void CommandM99() {
   echoln("Reseting...\n");
-  // x_stepper.release();
-  // y_stepper.release();
-  // laser.set(LOW);
-  // power.set(LOW);
   b1.reset();
 }
 
@@ -141,7 +137,7 @@ void CommandM99() {
  * Returns
  *   void
  */
-bool CommandG28() {
+//bool CommandG28() {
   // if (!digitalRead(power_sensor_pin)) {
     // done = true;
     // status(true);
@@ -153,7 +149,7 @@ bool CommandG28() {
   // y_axis.delayWrite(2);
   // x_axis.positionWrite(x_axis.parkRead());
   // y_axis.positionWrite(y_axis.parkRead());
-}
+//}
 
 /*
  *
@@ -168,7 +164,7 @@ bool CommandG28() {
  * Returns
  *   void
  */
-bool CommandM91() {
+//bool CommandM91() {
   // echoln(temperature.nameRead() + " (" +
          // temperature.status_name() + "): " +
          // temperature.valueRead() +
@@ -187,7 +183,7 @@ bool CommandM91() {
            // String(temperature.max_criticalRead()) +
            // temperature.unitRead());
   // }
-}
+//}
 
 /* CommandM89
  *
@@ -202,27 +198,27 @@ bool CommandM91() {
  * Returns
  *   void
  */
-bool CommandM89() {
-  int total = 2 * 1024;
-  int free = freeMemory();
-  int used = total - free;
-  int percent = (float)used * 100 / total;
-  //
-  Alarm memory(75, 85);
-  memory.nameWrite("Memory");
-  memory.unitWrite("%");
-  memory.check(percent);
-  //
-  echoln(memory.nameRead() + " (" + memory.status_name() + "): " +
-         percent + memory.unitRead() + " used");
-  if (debug_mode) {
-    echoln("  SRAM:\t" + String(total) + " B\n" +
-           "  Used:\t" + used + " B\n" +
-           "  Free:\t" + free + " B\n" +
-           "  Warning: " + memory.max_warningRead() + memory.unitRead() + "\n" +
-           "  Critical: " + memory.max_criticalRead() + memory.unitRead());
-  }
-}
+//bool CommandM89() {
+  //int total = 2 * 1024;
+  //int free = freeMemory();
+  //int used = total - free;
+  //int percent = (float)used * 100 / total;
+
+  //Alarm memory(75, 85);
+  //memory.nameWrite("Memory");
+  //memory.unitWrite("%");
+  //memory.check(percent);
+
+  //echoln(memory.nameRead() + " (" + memory.status_name() + "): " +
+         //percent + memory.unitRead() + " used");
+  //if (debug_mode) {
+    //echoln("  SRAM:\t" + String(total) + " B\n" +
+           //"  Used:\t" + used + " B\n" +
+           //"  Free:\t" + free + " B\n" +
+           //"  Warning: " + memory.max_warningRead() + memory.unitRead() + "\n" +
+           //"  Critical: " + memory.max_criticalRead() + memory.unitRead());
+  //}
+//}
 
 /*
  *
@@ -237,12 +233,12 @@ bool CommandM89() {
  * Returns
  *   void
  */
-void CommandM15() {
-  CommandM92();  //  System information
-  CommandM89();  //  Memory information
-  CommandM80();  //  Power status
-  CommandM91();  //  Temperature information
-}
+//void CommandM15() {
+  //CommandM92();  //  System information
+  //CommandM89();  //  Memory information
+  //CommandM80();  //  Power status
+  //CommandM91();  //  Temperature information
+//}
 
 /*
  *
@@ -281,12 +277,12 @@ void CommandM92() {
  * Returns
  *   void
  */
-bool CommandM0() {
+//bool CommandM0() {
   // demonstration_period.set(0);
   // x_axis.positionWrite(x_axis.positionRead());
   // y_axis.positionWrite(y_axis.positionRead());
-  return false;
-}
+  //return false;
+//}
 
 /* CommandM111
  *
@@ -301,10 +297,10 @@ bool CommandM0() {
  * Returns
  *   void
  */
-void CommandM111() {
-  debug_mode = !debug_mode;
-  echoln("DEBUG: " + String(debug_mode ? F("on") : F("off")));
-}
+//void CommandM111() {
+  //debug_mode = !debug_mode;
+  //echoln("DEBUG: " + String(debug_mode ? F("on") : F("off")));
+//}
 
 /*
  *
@@ -319,9 +315,9 @@ void CommandM111() {
  * Returns
  *   void
  */
-void Command0() {
-  echoln(F("Unknown command"));
-}
+//void Command0() {
+  //echoln(F("Unknown command"));
+//}
 
 /* CommandM18
  *
@@ -336,8 +332,8 @@ void Command0() {
  * Returns
  *   void
  */
-void CommandM18() {
-  CommandM0();  //  Compulsory stop
+//void CommandM18() {
+  //CommandM0();  //  Compulsory stop
   // x_stepper.release();
   // y_stepper.release();
-}
+//}

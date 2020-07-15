@@ -1,6 +1,6 @@
 # b1 Mark I - Self Balancing Robot
 
-## CHANGELOG
+## Change log
 
 ### 2020-01-16
 #### Added

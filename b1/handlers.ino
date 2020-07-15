@@ -6,21 +6,21 @@
  * Contributors: none
  */
 
-bool AxesHandler() {
-}
+//bool AxesHandler() {
+//}
 
-void DemonstrationHandler() {
-}
+//void DemonstrationHandler() {
+//}
 
-void HealthCheckHandler() {
-  status_led.blink();
-}
+//void HealthCheckHandler() {
+  //status_led.blink();
+//}
 
-void NotificationHandler() {
-}
+//void NotificationHandler() {
+//}
 
-void PowerHandler() {
-}
+//void PowerHandler() {
+//}
 
-void SensorsHandler() {
-}
+//void SensorsHandler() {
+//}
