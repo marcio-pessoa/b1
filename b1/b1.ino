@@ -309,8 +309,8 @@ void Kalman_Filter(double angle_m, double gyro_m)
   K_0 = PCt_0 / E;
   K_1 = PCt_1 / E;
 
-  t_0 = PCt_0; // Intermediate variables in matrix multiplication
-  t_1 = C_0 * P[0][1];
+  float t_0 = PCt_0; // Intermediate variables in matrix multiplication
+  float t_1 = C_0 * P[0][1];
 
   P[0][0] -= K_0 * t_0; // Posterior estimation error covariance
   P[0][1] -= K_0 * t_1;

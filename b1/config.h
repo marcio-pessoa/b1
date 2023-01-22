@@ -59,7 +59,7 @@ float R_angle = 0.5;   // Covariance of accelerometer
 char C_0 = 1;
 float dt = 0.005; // The value of dt is the filter sampling time
 float K1 = 0.05;  // a function containing the Kalman gain is used to calculate the deviation of the optimal estimate
-float K_0, K_1, t_0, t_1;
+float K_0, K_1;
 float q_bias; // gyroscope drift
 
 float angle;
