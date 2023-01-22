@@ -136,7 +136,6 @@ void angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx, int16_t gy,
   Kalman_Filter(Angle, Gyro_x);              // Kalman Filter
   // rotating angle Z-axis parameter
   Gyro_z = -gz / 131; // angle speed of Z-axis
-  // accelz = az / 1604;
 
   float angleAx = -atan2(ax, az) * (180 / PI); // calculate the inclined angle with x-axis
   Gyro_y = -gy / 131.00;                       // angle speed of Y-axis
