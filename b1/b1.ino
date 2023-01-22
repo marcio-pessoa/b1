@@ -60,9 +60,8 @@ Project b1("b1",                                       // Platform
 MPU6050 mpu6050;                // Instantiate an MPU6050 object; name mpu6050
 int16_t ax, ay, az, gx, gy, gz; // Define three-axis acceleration, three-axis gyroscope variables
 
-//////////////////interrupt speed count/////////////////////////////
-#define PinA_left 5  // external interrupt
-#define PinA_right 4 // external interrupt
+#define PinA_left 5  // external interrupt, interrupt speed count
+#define PinA_right 4 // external interrupt, interrupt speed count
 
 void setup()
 {
@@ -182,7 +181,7 @@ void countRightISR()
   count_right++;
 }
 
-////////////////////pulse count///////////////////////
+/// @brief pulse count
 void countpluse()
 {
   lz = count_left; // assign the value counted by encoder to lz
@@ -223,7 +222,7 @@ void countpluse()
   pulseleft += lpluse;
 }
 
-/////////////////////////////////interrupt ////////////////////////////
+/// @brief interrupt
 void DSzhongduan()
 {
   sei();                                                                          // allow overall interrupt
@@ -249,9 +248,20 @@ void DSzhongduan()
     turncc = 0; // Clear
   }
 }
-///////////////////////////////////////////////////////////
 
-/////////////////////////////tilt calculation///////////////////////
+/// @brief Tilt calculation.
+/// @param ax
+/// @param ay
+/// @param az
+/// @param gx
+/// @param gy
+/// @param gz
+/// @param dt
+/// @param Q_angle
+/// @param Q_gyro
+/// @param R_angle
+/// @param C_0
+/// @param K1
 void angle_calculate(int16_t ax, int16_t ay, int16_t az,
                      int16_t gx, int16_t gy, int16_t gz,
                      float dt, float Q_angle, float Q_gyro,
@@ -271,9 +281,10 @@ void angle_calculate(int16_t ax, int16_t ay, int16_t az,
 
   angleY_one = Yiorderfilter(angleAx, Gyro_y, K1, angleY_one, dt); // first-order filtering
 }
-////////////////////////////////////////////////////////////////
 
-/////////////////////////////// Kalman Filter
+/// @brief Kalman Filter.
+/// @param angle_m
+/// @param gyro_m
 void Kalman_Filter(double angle_m, double gyro_m)
 {
   angle += (gyro_m - q_bias) * dt; // prior estimate
@@ -311,7 +322,7 @@ void Kalman_Filter(double angle_m, double gyro_m)
   angle += K_0 * angle_err;      ////Posterior estimation; get the optimal angle
 }
 
-//////////////////speed PI////////////////////
+/// @brief speed PI
 void speedpiout()
 {
   float speeds = (pulseleft + pulseright) * 1.0; // speed  pulse value
@@ -325,9 +336,8 @@ void speedpiout()
   positions = constrain(positions, -3550, 3550);                                // Anti-integral saturation
   PI_pwm = ki_speed * (setp0 - positions) + kp_speed * (setp0 - speeds_filter); // speed loop control PI
 }
-//////////////////speed PI////////////////////
 
-///////////////////////////turning/////////////////////////////////
+/// @brief turning
 void turnspin()
 {
   int flag = 0; //
@@ -387,9 +397,8 @@ void turnspin()
 
   Turn_pwm = -turnout * kp_turn - Gyro_z * kd_turn; // turning PD algorithm control
 }
-///////////////////////////turning/////////////////////////////////
 
-////////////////////////////PWM end value/////////////////////////////
+/// @brief PWM end value
 void anglePWM()
 {
   pwm2 = -PD_pwm - PI_pwm + Turn_pwm; // assign the end value of PWM to motor
@@ -446,6 +455,7 @@ void anglePWM()
   }
 }
 
+/// @brief
 void buzzer()
 {
   for (int i = 0; i < 50; i++)
