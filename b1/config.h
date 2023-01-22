@@ -91,7 +91,6 @@ int pulseright, pulseleft;
 //////////////////////////////// PI variable parameter
 float speeds_filterold = 0;
 float positions = 0;
-int flag1;
 double PI_pwm;
 int cc;
 int speedout;
