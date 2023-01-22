@@ -258,7 +258,7 @@ void angle_calculate(int16_t ax, int16_t ay, int16_t az,
                      float R_angle, float C_0, float K1)
 {
   float Angle = -atan2(ay, az) * (180 / PI); // Radial rotation angle calculation formula ; negative sign is direction processing
-  Gyro_x = -gx / 131;                        // The X-axis angular velocity calculated by the gyroscope;  the negative sign is the direction processing
+  float Gyro_x = -gx / 131;                  // The X-axis angular velocity calculated by the gyroscope;  the negative sign is the direction processing
 
   Kalman_Filter(Angle, Gyro_x);
 
