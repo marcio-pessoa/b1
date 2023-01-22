@@ -18,6 +18,7 @@
 // #include <KalmanFilter.h>  // Temperature Sensors
 // #include <MemoryFree.h>   //
 #include "./config.h"     // Configuration
+#include "./static.h"     //
 #include <MsTimer2.h>     // internal timer 2
 #include <PinChangeInt.h> // Arduino REV4 as external interrupt
 #include <MPU6050.h>      // MPU6050 library
@@ -167,7 +168,6 @@ void loop()
   attachPinChangeInterrupt(PinA_right, Code_right, CHANGE); // PinA_right Level change triggers the external interrupt; execute the subfunction Code_right
 }
 
-
 /////////////////////Hall count/////////////////////////
 // left speed encoder count
 void Code_left()
@@ -258,9 +258,9 @@ void angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx, int16_t gy,
   // rotating angle Z-axis parameter
   Gyro_z = -gz / 131; // angle speed of Z-axis
 
-  float angleAx = -atan2(ax, az) * (180 / PI); // calculate the inclined angle with x-axis
-  Gyro_y = -gy / 131.00;                       // angle speed of Y-axis
-  Yiorderfilter(angleAx, Gyro_y);              // first-order filtering
+  float angleAx = -atan2(ax, az) * (180 / PI);                     // calculate the inclined angle with x-axis
+  Gyro_y = -gy / 131.00;                                           // angle speed of Y-axis
+  angleY_one = Yiorderfilter(angleAx, Gyro_y, K1, angleY_one, dt); // first-order filtering
 }
 ////////////////////////////////////////////////////////////////
 
@@ -300,12 +300,6 @@ void Kalman_Filter(double angle_m, double gyro_m)
   q_bias += K_1 * angle_err;     // Posterior estimate
   angle_speed = gyro_m - q_bias; // The differential of the output value gives the optimal angular velocity
   angle += K_0 * angle_err;      ////Posterior estimation; get the optimal angle
-}
-
-/////////////////////first-order filter/////////////////
-void Yiorderfilter(float angle_m, float gyro_m)
-{
-  angleY_one = K1 * angle_m + (1 - K1) * (angleY_one + gyro_m * dt);
 }
 
 //////////////////angle PD////////////////////
