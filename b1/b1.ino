@@ -265,8 +265,10 @@ void angle_calculate(int16_t ax, int16_t ay, int16_t az,
   // rotating angle Z-axis parameter
   Gyro_z = -gz / 131; // angle speed of Z-axis
 
-  float angleAx = -atan2(ax, az) * (180 / PI);                     // calculate the inclined angle with x-axis
-  Gyro_y = -gy / 131.00;                                           // angle speed of Y-axis
+  float angleAx = -atan2(ax, az) * (180 / PI); // calculate the inclined angle with x-axis
+
+  float Gyro_y = -gy / 131.00; // angle speed of Y-axis
+
   angleY_one = Yiorderfilter(angleAx, Gyro_y, K1, angleY_one, dt); // first-order filtering
 }
 ////////////////////////////////////////////////////////////////
