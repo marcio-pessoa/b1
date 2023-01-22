@@ -9,14 +9,14 @@
 /// @brief first-order filter
 /// @param angle_m inclined angle with x-axis
 /// @param gyro_m angle speed of Y-axis
-/// @param K1 tilt calculation
+/// @param kalman1 tilt calculation
 /// @param angleY_one
 /// @param dt tilt calculation
 /// @return
 float Yiorderfilter(float angle_m, float gyro_m,
-                    float K1, float angleY_one, float dt)
+                    float kalman1, float angleY_one, float dt)
 {
-  return K1 * angle_m + (1 - K1) * (angleY_one + gyro_m * dt);
+  return kalman1 * angle_m + (1 - kalman1) * (angleY_one + gyro_m * dt);
 }
 
 /// @brief angle PD
