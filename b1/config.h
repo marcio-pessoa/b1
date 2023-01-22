@@ -74,7 +74,6 @@ double kp = 34, ki = 0, kd = 0.62;                      // angle loop parameter
 double kp_speed = 3.56, ki_speed = 0.072, kd_speed = 0; // speed loop parameter
 double kp_turn = 24, ki_turn = 0, kd_turn = 0.08;       // steering loop parameter
 double setp0 = 0;                                       // angle balance point
-int PD_pwm;                                             // angle output
 float pwm1 = 0, pwm2 = 0;
 
 ////////////////// interrupt speed count /////////////////////////////

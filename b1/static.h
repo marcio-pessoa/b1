@@ -20,7 +20,7 @@ float Yiorderfilter(float angle_m, float gyro_m,
          (1 - kalman1) * (angleY_one + gyro_m * samplingTime);
 }
 
-/// @brief angle PD
+/// @brief PD angle loop control
 /// @param kp angle loop parameter
 /// @param angle
 /// @param angle0 mechanical balance angle (ideally 0 degrees)
@@ -29,5 +29,5 @@ float Yiorderfilter(float angle_m, float gyro_m,
 /// @return
 int PD(double kp, float angle, float angle0, double kd, float angle_speed)
 {
-  return kp * (angle + angle0) + kd * angle_speed; // PD angle loop control
+  return kp * (angle + angle0) + kd * angle_speed;
 }

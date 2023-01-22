@@ -230,7 +230,6 @@ void DSzhongduan()
   mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);                               // IIC to get MPU6050 six-axis data  ax ay az gx gy gz
   angle_calculate(ax, ay, az, gx, gy, gz, dt, Q_angle, Q_gyro, R_angle, C_0, K1); // get angle and Kalmam filtering
 
-  PD_pwm = PD(kp, angle, angle0, kd, angle_speed); // angle loop PD control
   anglePWM();
 
   cc++;
@@ -246,6 +245,65 @@ void DSzhongduan()
   {
     turnspin();
     turncc = 0; // Clear
+  }
+}
+
+/// @brief PWM end value
+void anglePWM()
+{
+  int PD_pwm = PD(kp, angle, angle0, kd, angle_speed); // angle loop PD control
+
+  pwm2 = -PD_pwm - PI_pwm + Turn_pwm; // assign the end value of PWM to motor
+  pwm1 = -PD_pwm - PI_pwm - Turn_pwm;
+
+  // limit PWM value not greater than255
+  if (pwm1 > 255)
+  {
+    pwm1 = 255;
+  }
+  if (pwm1 < -255)
+  {
+    pwm1 = -255;
+  }
+  if (pwm2 > 255)
+  {
+    pwm2 = 255;
+  }
+  if (pwm2 < -255)
+  {
+    pwm2 = -255;
+  }
+
+  // if tilt angle is greater than 45°，motor will stop
+  if (angle > 45 || angle < -45)
+  {
+    pwm1 = pwm2 = 0;
+  }
+  // determine the motor steering and speed by negative and positive of PWM
+  if (pwm2 >= 0)
+  {
+    digitalWrite(left_L1, LOW);
+    digitalWrite(left_L2, HIGH);
+    analogWrite(PWM_L, pwm2);
+  }
+  else
+  {
+    digitalWrite(left_L1, HIGH);
+    digitalWrite(left_L2, LOW);
+    analogWrite(PWM_L, -pwm2);
+  }
+
+  if (pwm1 >= 0)
+  {
+    digitalWrite(right_R1, LOW);
+    digitalWrite(right_R2, HIGH);
+    analogWrite(PWM_R, pwm1);
+  }
+  else
+  {
+    digitalWrite(right_R1, HIGH);
+    digitalWrite(right_R2, LOW);
+    analogWrite(PWM_R, -pwm1);
   }
 }
 
@@ -396,63 +454,6 @@ void turnspin()
     turnout = turnmin; // min value of amplitude
 
   Turn_pwm = -turnout * kp_turn - Gyro_z * kd_turn; // turning PD algorithm control
-}
-
-/// @brief PWM end value
-void anglePWM()
-{
-  pwm2 = -PD_pwm - PI_pwm + Turn_pwm; // assign the end value of PWM to motor
-  pwm1 = -PD_pwm - PI_pwm - Turn_pwm;
-
-  // limit PWM value not greater than255
-  if (pwm1 > 255)
-  {
-    pwm1 = 255;
-  }
-  if (pwm1 < -255)
-  {
-    pwm1 = -255;
-  }
-  if (pwm2 > 255)
-  {
-    pwm2 = 255;
-  }
-  if (pwm2 < -255)
-  {
-    pwm2 = -255;
-  }
-
-  // if tilt angle is greater than 45°，motor will stop
-  if (angle > 45 || angle < -45)
-  {
-    pwm1 = pwm2 = 0;
-  }
-  // determine the motor steering and speed by negative and positive of PWM
-  if (pwm2 >= 0)
-  {
-    digitalWrite(left_L1, LOW);
-    digitalWrite(left_L2, HIGH);
-    analogWrite(PWM_L, pwm2);
-  }
-  else
-  {
-    digitalWrite(left_L1, HIGH);
-    digitalWrite(left_L2, LOW);
-    analogWrite(PWM_L, -pwm2);
-  }
-
-  if (pwm1 >= 0)
-  {
-    digitalWrite(right_R1, LOW);
-    digitalWrite(right_R2, HIGH);
-    analogWrite(PWM_R, pwm1);
-  }
-  else
-  {
-    digitalWrite(right_R1, HIGH);
-    digitalWrite(right_R2, LOW);
-    analogWrite(PWM_R, -pwm1);
-  }
 }
 
 /// @brief
