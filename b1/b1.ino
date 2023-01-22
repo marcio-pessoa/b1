@@ -225,9 +225,11 @@ void countpluse()
 /// @brief interrupt
 void DSzhongduan()
 {
-  sei();                                                                          // allow overall interrupt
-  countpluse();                                                                   // pulse plus subfunction
-  mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);                               // IIC to get MPU6050 six-axis data  ax ay az gx gy gz
+  sei();        // allow overall interrupt
+  countpluse(); // pulse plus subfunction
+
+  mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz); // IIC to get MPU6050 six-axis data  ax ay az gx gy gz
+
   angle_calculate(ax, ay, az, gx, gy, gz, dt, Q_angle, Q_gyro, R_angle, C_0, K1); // get angle and Kalmam filtering
 
   anglePWM();
@@ -239,6 +241,7 @@ void DSzhongduan()
     speedpiout();
     cc = 0; // Clear
   }
+
   turncc++;
   // 20ms; enter PD algorithm of steering
   if (turncc > 4)
@@ -386,7 +389,7 @@ void speedpiout()
   float speeds = (pulseleft + pulseright) * 1.0; // speed  pulse value
   pulseright = pulseleft = 0;                    // clear
   speeds_filterold *= 0.7;                       // first-order complementary filtering
-  speeds_filter = speeds_filterold + speeds * 0.3;
+  float speeds_filter = speeds_filterold + speeds * 0.3;
   speeds_filterold = speeds_filter;
   positions += speeds_filter;
   positions += front;                                                           // Forward control fusion

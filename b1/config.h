@@ -90,7 +90,6 @@ float speeds_filterold = 0;
 float positions = 0;
 double PI_pwm;
 int cc;
-float speeds_filter;
 
 ////////////////////////////// turning PD
 int turnmax, turnmin, turnout;
