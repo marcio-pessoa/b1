@@ -164,19 +164,18 @@ void loop()
   }
 
   // external interrupt; used to calculate the wheel speed
-  attachPinChangeInterrupt(PinA_left, Code_left, CHANGE);   // PinA_left Level change triggers the external interrupt; execute the subfunction Code_left
-  attachPinChangeInterrupt(PinA_right, Code_right, CHANGE); // PinA_right Level change triggers the external interrupt; execute the subfunction Code_right
+  attachPinChangeInterrupt(PinA_left, countLeftISR, CHANGE);   // PinA_left Level change triggers the external interrupt
+  attachPinChangeInterrupt(PinA_right, countRightISR, CHANGE); // PinA_right Level change triggers the external interrupt
 }
 
-/////////////////////Hall count/////////////////////////
-// left speed encoder count
-void Code_left()
+/// @brief Left speed encoder count (Interrupt Service Routine).
+void countLeftISR()
 {
   count_left++;
 }
 
-// right speed encoder count
-void Code_right()
+/// @brief Right speed encoder count ISR (Interrupt Service Routine).
+void countRightISR()
 {
   count_right++;
 }
@@ -251,11 +250,16 @@ void DSzhongduan()
 ///////////////////////////////////////////////////////////
 
 /////////////////////////////tilt calculation///////////////////////
-void angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx, int16_t gy, int16_t gz, float dt, float Q_angle, float Q_gyro, float R_angle, float C_0, float K1)
+void angle_calculate(int16_t ax, int16_t ay, int16_t az,
+                     int16_t gx, int16_t gy, int16_t gz,
+                     float dt, float Q_angle, float Q_gyro,
+                     float R_angle, float C_0, float K1)
 {
   float Angle = -atan2(ay, az) * (180 / PI); // Radial rotation angle calculation formula ; negative sign is direction processing
   Gyro_x = -gx / 131;                        // The X-axis angular velocity calculated by the gyroscope;  the negative sign is the direction processing
-  Kalman_Filter(Angle, Gyro_x);              // Kalman Filter
+
+  Kalman_Filter(Angle, Gyro_x);
+
   // rotating angle Z-axis parameter
   Gyro_z = -gz / 131; // angle speed of Z-axis
 
