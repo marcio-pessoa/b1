@@ -302,7 +302,7 @@ void Kalman_Filter(double angle_m, double gyro_m)
 
   // Intermediate variables in matrix multiplication
   float PCt_0 = C_0 * P[0][0];
-  PCt_1 = C_0 * P[1][0];
+  float PCt_1 = C_0 * P[1][0];
   // denominator
   float ERRR = R_angle + C_0 * PCt_0;
   // gain value
