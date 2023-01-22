@@ -164,8 +164,10 @@ void loop()
   }
 
   // external interrupt; used to calculate the wheel speed
-  attachPinChangeInterrupt(PinA_left, countLeftISR, CHANGE);   // PinA_left Level change triggers the external interrupt
-  attachPinChangeInterrupt(PinA_right, countRightISR, CHANGE); // PinA_right Level change triggers the external interrupt
+  // PinA_left Level change triggers the external interrupt
+  attachPinChangeInterrupt(PinA_left, countLeftISR, CHANGE);
+  // PinA_right Level change triggers the external interrupt
+  attachPinChangeInterrupt(PinA_right, countRightISR, CHANGE);
 }
 
 /// @brief Left speed encoder count (Interrupt Service Routine).
