@@ -48,8 +48,6 @@ const int buz = 11;
 const int btn = 13;
 
 /////////////////////// angle parameters
-// float angle_X; // calculate the inclined angle variable of X-axis by accelerometer
-float angle_Y;                // calculate the inclined angle variable of Y-axis by accelerometer
 float angle0 = 0;             // mechanical balance angle (ideally 0 degrees)
 float Gyro_x, Gyro_y, Gyro_z; // Angular angular velocity by gyroscope calculation
 /////////////////////// angle parameter
