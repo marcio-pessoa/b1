@@ -10,6 +10,7 @@
  */
 
 #include <Arduino.h> // Main library
+#include <Wire.h>    // IIC communication library
 #include <Project.h> // Basic project definitions
 // #include <Blinker.h>       // Blink leds nicely
 // #include <Timer.h>         // Timer library with nice features
@@ -17,12 +18,11 @@
 // #include <Temperature.h>   // Temperature Sensors
 // #include <KalmanFilter.h>  // Temperature Sensors
 // #include <MemoryFree.h>   //
-#include "./config.h"     // Configuration
-#include "./static.h"     //
 #include <MsTimer2.h>     // internal timer 2
 #include <PinChangeInt.h> // Arduino REV4 as external interrupt
 #include <MPU6050.h>      // MPU6050 library
-#include <Wire.h>         // IIC communication library
+#include "./static.h"     // Static functions
+#include "./config.h"     // Configuration
 
 // Project definitions
 Project b1("b1",                                       // Platform
@@ -66,11 +66,11 @@ int16_t ax, ay, az, gx, gy, gz; // Define three-axis acceleration, three-axis gy
 
 void setup()
 {
+  // Serial interface
+  Serial.begin(serial_speed);
   // join I2C bus
   Wire.begin();
   delay(1500);
-  // Serial interface
-  Serial.begin(serial_speed);
   // Start up message
   Serial.println("Starting...");
   CommandM92(); // System information
