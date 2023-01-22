@@ -72,7 +72,7 @@ void setup()
   delay(1500);
   // Start up message
   Serial.println("Starting...");
-  CommandM92(); // System information
+  // CommandM92(); // System information
   // Temperature
   // lm35.attach(lm35_pin);
   // temperature.nameWrite("Temperature");
