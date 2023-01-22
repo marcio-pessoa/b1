@@ -82,7 +82,6 @@ float pwm1 = 0, pwm2 = 0;
 ////////////////// interrupt speed count /////////////////////////////
 volatile long count_right = 0; // Used to calculate the pulse value calculated by the Hall encoder (the volatile long type is to ensure the value is valid)
 volatile long count_left = 0;
-int speedcc = 0;
 ////////////////////// pulse count /////////////////////////
 int lz = 0;
 int rz = 0;
