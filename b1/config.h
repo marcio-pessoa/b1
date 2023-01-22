@@ -98,7 +98,6 @@ float speeds_filter;
 ////////////////////////////// turning PD
 int turnmax, turnmin, turnout;
 float Turn_pwm = 0;
-int zz = 0;
 int turncc = 0;
 
 // Bluetooth
