@@ -148,7 +148,7 @@ void angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx, int16_t gy,
 void Kalman_Filter(double angle_m, double gyro_m)
 {
   angle += (gyro_m - q_bias) * dt; // prior estimate
-  angle_err = angle_m - angle;
+  float angle_err = angle_m - angle;
 
   Pdot[0] = Q_angle - P[0][1] - P[1][0]; // The differential of the covariance of the prior estimate error
   Pdot[1] = -P[1][1];
