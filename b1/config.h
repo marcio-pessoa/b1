@@ -66,7 +66,7 @@ float angleY_one;
 float angle_speed;
 
 float Pdot[4] = {0, 0, 0, 0};
-float P[2][2] = {{1, 0}, {0, 1}};
+float Peuda[2][2] = {{1, 0}, {0, 1}};
 ////////////////////// Kalman_Filter
 
 ////////////////////// PID parameter
