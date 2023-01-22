@@ -228,9 +228,14 @@ void DSzhongduan()
   sei();        // allow overall interrupt
   countpluse(); // pulse plus subfunction
 
-  mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz); // IIC to get MPU6050 six-axis data  ax ay az gx gy gz
+  mpu6050.getMotion6(&ax, &ay, &az,
+                     &gx, &gy, &gz); // IIC to get MPU6050 six-axis data
 
-  angle_calculate(ax, ay, az, gx, gy, gz, dt, Q_angle, Q_gyro, R_angle, C_0, K1); // get angle and Kalmam filtering
+  Gyro_z = angle_calculate(ax, ay, az,
+                           gx, gy, gz,
+                           dt,
+                           Q_angle, Q_gyro,
+                           R_angle, C_0, K1); // get angle and Kalmam filtering
 
   anglePWM();
 
@@ -317,30 +322,30 @@ void anglePWM()
 /// @param gx
 /// @param gy
 /// @param gz
-/// @param dt
+/// @param dt The value of dt is the filter sampling time
 /// @param Q_angle
 /// @param Q_gyro
 /// @param R_angle
 /// @param C_0
 /// @param K1
-void angle_calculate(int16_t ax, int16_t ay, int16_t az,
-                     int16_t gx, int16_t gy, int16_t gz,
-                     float dt, float Q_angle, float Q_gyro,
-                     float R_angle, float C_0, float K1)
+float angle_calculate(int16_t ax, int16_t ay, int16_t az,
+                      int16_t gx, int16_t gy, int16_t gz,
+                      float dt, float Q_angle, float Q_gyro,
+                      float R_angle, float C_0, float K1)
 {
   float Angle = -atan2(ay, az) * (180 / PI); // Radial rotation angle calculation formula ; negative sign is direction processing
   float Gyro_x = -gx / 131;                  // The X-axis angular velocity calculated by the gyroscope;  the negative sign is the direction processing
 
   Kalman_Filter(Angle, Gyro_x);
 
-  // rotating angle Z-axis parameter
-  Gyro_z = -gz / 131; // angle speed of Z-axis
-
   float angleAx = -atan2(ax, az) * (180 / PI); // calculate the inclined angle with x-axis
 
   float Gyro_y = -gy / 131.00; // angle speed of Y-axis
 
   angleY_one = Yiorderfilter(angleAx, Gyro_y, K1, angleY_one, dt); // first-order filtering
+
+  // rotating angle Z-axis parameter
+  return -gz / 131; // angle speed of Z-axis
 }
 
 /// @brief Kalman Filter.
@@ -356,7 +361,8 @@ void Kalman_Filter(double angle_m, double gyro_m)
   Pdot[2] = -Peuda[1][1];
   Pdot[3] = Q_gyro;
 
-  Peuda[0][0] += Pdot[0] * dt; // The integral of the covariance differential of the prior estimate error
+  // The integral of the covariance differential of the prior estimate error
+  Peuda[0][0] += Pdot[0] * dt;
   Peuda[0][1] += Pdot[1] * dt;
   Peuda[1][0] += Pdot[2] * dt;
   Peuda[1][1] += Pdot[3] * dt;
@@ -364,8 +370,10 @@ void Kalman_Filter(double angle_m, double gyro_m)
   // Intermediate variables in matrix multiplication
   float PCt_0 = C_0 * Peuda[0][0];
   float PCt_1 = C_0 * Peuda[1][0];
+
   // denominator
   float ERRR = R_angle + C_0 * PCt_0;
+
   // gain value
   float K_0 = PCt_0 / ERRR;
   float K_1 = PCt_1 / ERRR;
