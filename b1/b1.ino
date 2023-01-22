@@ -238,7 +238,7 @@ void DSzhongduan()
   // 5*8=40，enter PI algorithm of speed per 40ms
   if (cc >= 8)
   {
-    speedpiout();
+    speedpiout(setp0);
     cc = 0; // Clear
   }
 
@@ -380,22 +380,29 @@ void Kalman_Filter(double angle_m, double gyro_m)
 
   q_bias += K_1 * angle_err;     // Posterior estimate
   angle_speed = gyro_m - q_bias; // The differential of the output value gives the optimal angular velocity
-  angle += K_0 * angle_err;      ////Posterior estimation; get the optimal angle
+  angle += K_0 * angle_err;      // Posterior estimation; get the optimal angle
 }
 
 /// @brief speed PI
-void speedpiout()
+/// @param step0 angle balance point
+void speedpiout(double step0)
 {
   float speeds = (pulseleft + pulseright) * 1.0; // speed  pulse value
-  pulseright = pulseleft = 0;                    // clear
-  speeds_filterold *= 0.7;                       // first-order complementary filtering
+
+  pulseright = pulseleft = 0; // clear
+  speeds_filterold *= 0.7;    // first-order complementary filtering
+
   float speeds_filter = speeds_filterold + speeds * 0.3;
   speeds_filterold = speeds_filter;
+
   positions += speeds_filter;
-  positions += front;                                                           // Forward control fusion
-  positions += back;                                                            // backward control fusion
-  positions = constrain(positions, -3550, 3550);                                // Anti-integral saturation
-  PI_pwm = ki_speed * (setp0 - positions) + kp_speed * (setp0 - speeds_filter); // speed loop control PI
+  positions += front; // Forward control fusion
+
+  positions += back;                             // backward control fusion
+  positions = constrain(positions, -3550, 3550); // Anti-integral saturation
+
+  PI_pwm = ki_speed * (step0 - positions) +
+           kp_speed * (step0 - speeds_filter); // speed loop control PI
 }
 
 /// @brief turning
