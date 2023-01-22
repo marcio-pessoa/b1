@@ -229,7 +229,8 @@ void DSzhongduan()
   countpluse();                                                                   // pulse plus subfunction
   mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);                               // IIC to get MPU6050 six-axis data  ax ay az gx gy gz
   angle_calculate(ax, ay, az, gx, gy, gz, dt, Q_angle, Q_gyro, R_angle, C_0, K1); // get angle and Kalmam filtering
-  PD();                                                                           // angle loop PD control
+
+  PD_pwm = PD(kp, angle, angle0, kd, angle_speed); // angle loop PD control
   anglePWM();
 
   cc++;
@@ -300,12 +301,6 @@ void Kalman_Filter(double angle_m, double gyro_m)
   q_bias += K_1 * angle_err;     // Posterior estimate
   angle_speed = gyro_m - q_bias; // The differential of the output value gives the optimal angular velocity
   angle += K_0 * angle_err;      ////Posterior estimation; get the optimal angle
-}
-
-//////////////////angle PD////////////////////
-void PD()
-{
-  PD_pwm = kp * (angle + angle0) + kd * angle_speed; // PD angle loop control
 }
 
 //////////////////speed PI////////////////////
