@@ -1,13 +1,9 @@
-/* KalmanFilter.h - Kalman filter
+/* KalmanFilter.h, b1 Mark I - Self Balancing Robot, Kalman filter library
  *
- * Copyright 2023 Marcio Pessoa
+ * Copyright 2019-2023 Marcio Pessoa
  *
  * Author: Márcio Pessoa <marcio.pessoa@gmail.com>
  * Contributors: none
- *
- * Change log
- * 2023-01-22
- *         First version.
  */
 
 #ifndef KalmanFilter_h

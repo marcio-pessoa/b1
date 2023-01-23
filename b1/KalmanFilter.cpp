@@ -1,7 +1,9 @@
-/* KalmanFilter.cpp - Kalman filter
+/* KalmanFilter.cpp, b1 Mark I - Self Balancing Robot, Kalman filter library
  *
- * Copyright 2020 Marcio Pessoa
+ * Copyright 2019-2023 Marcio Pessoa
  *
+ * Author: Márcio Pessoa <marcio.pessoa@gmail.com>
+ * Contributors: none
  */
 
 #include "Arduino.h"
