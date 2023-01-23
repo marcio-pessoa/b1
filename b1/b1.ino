@@ -9,20 +9,19 @@
  * Contributors: none
  */
 
-#include <Arduino.h> // Main library
-#include <Wire.h>    // IIC communication library
-#include <Project.h> // Basic project definitions
-// #include <Blinker.h>       // Blink leds nicely
-// #include <Timer.h>         // Timer library with nice features
-// #include <Alarm.h>         // Manage alarms
-// #include <Temperature.h>   // Temperature Sensors
-// #include <KalmanFilter.h>  // Temperature Sensors
-// #include <MemoryFree.h>   //
+#include <Arduino.h>      // Main library
+#include <Wire.h>         // IIC communication library
+#include <Project.h>      // Basic project definitions
 #include <MsTimer2.h>     // internal timer 2
 #include <PinChangeInt.h> // Arduino REV4 as external interrupt
 #include <MPU6050.h>      // MPU6050 library
+#include "KalmanFilter.h" // Kalman filter
 #include "./static.h"     // Static functions
 #include "./config.h"     // Configuration
+// #include <Blinker.h>      // Blink leds nicely
+// #include <Timer.h>        // Timer library with nice features
+// #include <Alarm.h>        // Manage alarms
+// #include <Temperature.h>  // Temperature Sensors
 
 // Project definitions
 Project b1("b1",                                       // Platform
@@ -35,6 +34,9 @@ Project b1("b1",                                       // Platform
            "GPLv2. There is NO WARRANTY.",             // License
            "https://github.com/marcio-pessoa/b1",      // Website
            "Marcio Pessoa <marcio.pessoa@gmail.com>"); // Contact
+
+// Kalman filter
+KalmanFilter kalman(dt, Q_angle, Q_gyro, C_0, R_angle);
 
 // Status LED
 // Blinker status_led(led_status_pin);
@@ -109,8 +111,8 @@ void setup()
   delay(2);
 
   // 5ms; use timer2 to set the timer interrupt (note: using timer2 may affects the PWM output of pin3 pin11)
-  MsTimer2::set(5, DSzhongduan); // 5ms; execute the function DSzhongduan once
-  MsTimer2::start();             // start interrupt
+  MsTimer2::set(5, balancing); // 5ms; execute the function DSzhongduan once
+  MsTimer2::start();           // start interrupt
 }
 
 void loop()
@@ -223,7 +225,7 @@ void countpluse()
 }
 
 /// @brief interrupt
-void DSzhongduan()
+void balancing()
 {
   sei();        // allow overall interrupt
   countpluse(); // pulse plus subfunction
@@ -330,13 +332,19 @@ void anglePWM()
 /// @param K1
 float angle_calculate(int16_t ax, int16_t ay, int16_t az,
                       int16_t gx, int16_t gy, int16_t gz,
-                      float dt, float Q_angle, float Q_gyro,
+                      float dt,
+                      float Q_angle, float Q_gyro,
                       float R_angle, float C_0, float K1)
 {
-  float Angle = -atan2(ay, az) * (180 / PI); // Radial rotation angle calculation formula ; negative sign is direction processing
-  float Gyro_x = -gx / 131;                  // The X-axis angular velocity calculated by the gyroscope;  the negative sign is the direction processing
+  // Radial rotation angle calculation formula; negative sign is direction processing
+  float sensorAngle = -atan2(ay, az) * (180 / PI);
 
-  Kalman_Filter(Angle, Gyro_x);
+  // The X-axis angular velocity calculated by the gyroscope;  the negative sign is the direction processing
+  float Gyro_x = -gx / 131;
+
+  kalman.run(angle, sensorAngle, Gyro_x);
+  angle = kalman.angle;
+  angle_speed = kalman.angle_speed;
 
   float angleAx = -atan2(ax, az) * (180 / PI); // calculate the inclined angle with x-axis
 
@@ -346,49 +354,6 @@ float angle_calculate(int16_t ax, int16_t ay, int16_t az,
 
   // rotating angle Z-axis parameter
   return -gz / 131; // angle speed of Z-axis
-}
-
-/// @brief Kalman Filter.
-/// @param angle_m
-/// @param gyro_m
-void Kalman_Filter(double angle_m, double gyro_m)
-{
-  angle += (gyro_m - q_bias) * dt; // prior estimate
-  float angle_err = angle_m - angle;
-
-  Pdot[0] = Q_angle - Peuda[0][1] - Peuda[1][0]; // The differential of the covariance of the prior estimate error
-  Pdot[1] = -Peuda[1][1];
-  Pdot[2] = -Peuda[1][1];
-  Pdot[3] = Q_gyro;
-
-  // The integral of the covariance differential of the prior estimate error
-  Peuda[0][0] += Pdot[0] * dt;
-  Peuda[0][1] += Pdot[1] * dt;
-  Peuda[1][0] += Pdot[2] * dt;
-  Peuda[1][1] += Pdot[3] * dt;
-
-  // Intermediate variables in matrix multiplication
-  float PCt_0 = C_0 * Peuda[0][0];
-  float PCt_1 = C_0 * Peuda[1][0];
-
-  // denominator
-  float ERRR = R_angle + C_0 * PCt_0;
-
-  // gain value
-  float K_0 = PCt_0 / ERRR;
-  float K_1 = PCt_1 / ERRR;
-
-  float t_0 = PCt_0; // Intermediate variables in matrix multiplication
-  float t_1 = C_0 * Peuda[0][1];
-
-  Peuda[0][0] -= K_0 * t_0; // Posterior estimation error covariance
-  Peuda[0][1] -= K_0 * t_1;
-  Peuda[1][0] -= K_1 * t_0;
-  Peuda[1][1] -= K_1 * t_1;
-
-  q_bias += K_1 * angle_err;     // Posterior estimate
-  angle_speed = gyro_m - q_bias; // The differential of the output value gives the optimal angular velocity
-  angle += K_0 * angle_err;      // Posterior estimation; get the optimal angle
 }
 
 /// @brief speed PI
