@@ -31,11 +31,8 @@ KalmanFilter::KalmanFilter(float dt, float q_angle, float q_gyro,
 /// @param gyro_m The X-axis angular velocity calculated by the gyroscope; the negative sign is the direction processing
 void KalmanFilter::run(float myAngle, double angle_m, double gyro_m)
 {
-  angle = myAngle;
-  angle += (gyro_m - _q_bias) * _dt; // prior estimate
-  float angle_err = angle_m - angle;
-
-  _pDot[0] = _q_angle - _p[0][1] - _p[1][0]; // The differential of the covariance of the prior estimate error
+  // The differential of the covariance of the prior estimate error
+  _pDot[0] = _q_angle - _p[0][1] - _p[1][0];
   _pDot[1] = -_p[1][1];
   _pDot[2] = -_p[1][1];
   _pDot[3] = _q_gyro;
@@ -65,7 +62,15 @@ void KalmanFilter::run(float myAngle, double angle_m, double gyro_m)
   _p[1][0] -= K_1 * t_0;
   _p[1][1] -= K_1 * t_1;
 
-  _q_bias += K_1 * angle_err;     // Posterior estimate
-  angle_speed = gyro_m - _q_bias; // The differential of the output value gives the optimal angular velocity
-  angle += K_0 * angle_err;       // Posterior estimation; get the optimal angle
+  angle = myAngle;
+  angle += (gyro_m - _q_bias) * _dt; // prior estimate
+  float angle_err = angle_m - angle;
+
+  _q_bias += K_1 * angle_err; // Posterior estimate
+
+  // The differential of the output value gives the optimal angular velocity
+  angle_speed = gyro_m - _q_bias;
+
+  // Posterior estimation; get the optimal angle
+  angle += K_0 * angle_err;
 }

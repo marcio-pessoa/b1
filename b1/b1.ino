@@ -336,12 +336,13 @@ float angle_calculate(int16_t ax, int16_t ay, int16_t az,
                       float Q_angle, float Q_gyro,
                       float R_angle, float C_0, float K1)
 {
-  // Radial rotation angle calculation formula ; negative sign is direction processing
-  float Angle = -atan2(ay, az) * (180 / PI);
+  // Radial rotation angle calculation formula; negative sign is direction processing
+  float sensorAngle = -atan2(ay, az) * (180 / PI);
+
   // The X-axis angular velocity calculated by the gyroscope;  the negative sign is the direction processing
   float Gyro_x = -gx / 131;
 
-  kalman.run(angle, Angle, Gyro_x);
+  kalman.run(angle, sensorAngle, Gyro_x);
   angle = kalman.angle;
   angle_speed = kalman.angle_speed;
 
