@@ -357,45 +357,8 @@ float angle_calculate(int16_t ax, int16_t ay, int16_t az,
 void Kalman_Filter(double angle_m, double gyro_m)
 {
   kalman.run(angle, angle_m, gyro_m);
-  // angle = kalman.angle;
-  // angle_speed = kalman.angle_speed;
-
-  angle += (gyro_m - q_bias) * dt; // prior estimate
-  float angle_err = angle_m - angle;
-
-  Pdot[0] = Q_angle - Peuda[0][1] - Peuda[1][0]; // The differential of the covariance of the prior estimate error
-  Pdot[1] = -Peuda[1][1];
-  Pdot[2] = -Peuda[1][1];
-  Pdot[3] = Q_gyro;
-
-  // The integral of the covariance differential of the prior estimate error
-  Peuda[0][0] += Pdot[0] * dt;
-  Peuda[0][1] += Pdot[1] * dt;
-  Peuda[1][0] += Pdot[2] * dt;
-  Peuda[1][1] += Pdot[3] * dt;
-
-  // Intermediate variables in matrix multiplication
-  float PCt_0 = C_0 * Peuda[0][0];
-  float PCt_1 = C_0 * Peuda[1][0];
-
-  // denominator
-  float ERRR = R_angle + C_0 * PCt_0;
-
-  // gain value
-  float K_0 = PCt_0 / ERRR;
-  float K_1 = PCt_1 / ERRR;
-
-  float t_0 = PCt_0; // Intermediate variables in matrix multiplication
-  float t_1 = C_0 * Peuda[0][1];
-
-  Peuda[0][0] -= K_0 * t_0; // Posterior estimation error covariance
-  Peuda[0][1] -= K_0 * t_1;
-  Peuda[1][0] -= K_1 * t_0;
-  Peuda[1][1] -= K_1 * t_1;
-
-  q_bias += K_1 * angle_err;     // Posterior estimate
-  angle_speed = gyro_m - q_bias; // The differential of the output value gives the optimal angular velocity
-  angle += K_0 * angle_err;      // Posterior estimation; get the optimal angle
+  angle = kalman.angle;
+  angle_speed = kalman.angle_speed;
 }
 
 /// @brief speed PI
