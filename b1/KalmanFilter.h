@@ -2,6 +2,8 @@
  *
  * Copyright 2019-2023 Marcio Pessoa
  *
+ * Reference: https://en.wikipedia.org/wiki/Kalman_filter
+ *
  * Author: Márcio Pessoa <marcio.pessoa@gmail.com>
  * Contributors: none
  */
