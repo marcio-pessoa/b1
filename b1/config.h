@@ -53,20 +53,20 @@ float Gyro_z;     // Angular angular velocity by gyroscope calculation
 /////////////////////// angle parameter
 
 /////////////////////// Kalman_Filter
-float Q_angle = 0.001; // Covariance of gyroscope noise
-float Q_gyro = 0.003;  // Covariance of gyroscope drift noise
-float R_angle = 0.5;   // Covariance of accelerometer
-char C_0 = 1;
-float dt = 0.005; // The value of dt is the filter sampling time
-float K1 = 0.05;  // a function containing the Kalman gain is used to calculate the deviation of the optimal estimate
-float q_bias;     // gyroscope drift
+const float Q_angle = 0.001; // Covariance of gyroscope noise
+const float Q_gyro = 0.003;  // Covariance of gyroscope drift noise
+const float R_angle = 0.5;   // Covariance of accelerometer
+const char C_0 = 1;
+const float dt = 0.005; // The value of dt is the filter sampling time
+const float K1 = 0.05;  // a function containing the Kalman gain is used to calculate the deviation of the optimal estimate
+float q_bias;           // gyroscope drift
 
 float angle;
-float angleY_one;
 float angle_speed;
+float angleY_one;
 
 float Pdot[4] = {0, 0, 0, 0};
-float Peuda[2][2] = {{1, 0}, {0, 1}};
+float Peuda[2][2] = {{1, 0}, {0, 1}}; // Kalman P variable
 ////////////////////// Kalman_Filter
 
 ////////////////////// PID parameter

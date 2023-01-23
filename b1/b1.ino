@@ -9,20 +9,19 @@
  * Contributors: none
  */
 
-#include <Arduino.h> // Main library
-#include <Wire.h>    // IIC communication library
-#include <Project.h> // Basic project definitions
-// #include <Blinker.h>       // Blink leds nicely
-// #include <Timer.h>         // Timer library with nice features
-// #include <Alarm.h>         // Manage alarms
-// #include <Temperature.h>   // Temperature Sensors
-// #include <KalmanFilter.h>  // Temperature Sensors
-// #include <MemoryFree.h>   //
+#include <Arduino.h>      // Main library
+#include <Wire.h>         // IIC communication library
+#include <Project.h>      // Basic project definitions
+#include <KalmanFilter.h> // Kalman filter
 #include <MsTimer2.h>     // internal timer 2
 #include <PinChangeInt.h> // Arduino REV4 as external interrupt
 #include <MPU6050.h>      // MPU6050 library
 #include "./static.h"     // Static functions
 #include "./config.h"     // Configuration
+// #include <Blinker.h>      // Blink leds nicely
+// #include <Timer.h>        // Timer library with nice features
+// #include <Alarm.h>        // Manage alarms
+// #include <Temperature.h>  // Temperature Sensors
 
 // Project definitions
 Project b1("b1",                                       // Platform
@@ -35,6 +34,9 @@ Project b1("b1",                                       // Platform
            "GPLv2. There is NO WARRANTY.",             // License
            "https://github.com/marcio-pessoa/b1",      // Website
            "Marcio Pessoa <marcio.pessoa@gmail.com>"); // Contact
+
+// Kalman filter
+KalmanFilter kalman(dt, Q_angle, Q_gyro, C_0, R_angle);
 
 // Status LED
 // Blinker status_led(led_status_pin);
@@ -109,8 +111,8 @@ void setup()
   delay(2);
 
   // 5ms; use timer2 to set the timer interrupt (note: using timer2 may affects the PWM output of pin3 pin11)
-  MsTimer2::set(5, DSzhongduan); // 5ms; execute the function DSzhongduan once
-  MsTimer2::start();             // start interrupt
+  MsTimer2::set(5, balancing); // 5ms; execute the function DSzhongduan once
+  MsTimer2::start();           // start interrupt
 }
 
 void loop()
@@ -223,7 +225,7 @@ void countpluse()
 }
 
 /// @brief interrupt
-void DSzhongduan()
+void balancing()
 {
   sei();        // allow overall interrupt
   countpluse(); // pulse plus subfunction
@@ -330,7 +332,8 @@ void anglePWM()
 /// @param K1
 float angle_calculate(int16_t ax, int16_t ay, int16_t az,
                       int16_t gx, int16_t gy, int16_t gz,
-                      float dt, float Q_angle, float Q_gyro,
+                      float dt,
+                      float Q_angle, float Q_gyro,
                       float R_angle, float C_0, float K1)
 {
   float Angle = -atan2(ay, az) * (180 / PI); // Radial rotation angle calculation formula ; negative sign is direction processing
@@ -353,6 +356,10 @@ float angle_calculate(int16_t ax, int16_t ay, int16_t az,
 /// @param gyro_m
 void Kalman_Filter(double angle_m, double gyro_m)
 {
+  kalman.run(angle, angle_m, gyro_m);
+  // angle = kalman.angle;
+  // angle_speed = kalman.angle_speed;
+
   angle += (gyro_m - q_bias) * dt; // prior estimate
   float angle_err = angle_m - angle;
 
