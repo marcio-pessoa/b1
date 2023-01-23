@@ -12,10 +12,10 @@
 #include <Arduino.h>      // Main library
 #include <Wire.h>         // IIC communication library
 #include <Project.h>      // Basic project definitions
-#include <KalmanFilter.h> // Kalman filter
 #include <MsTimer2.h>     // internal timer 2
 #include <PinChangeInt.h> // Arduino REV4 as external interrupt
 #include <MPU6050.h>      // MPU6050 library
+#include "KalmanFilter.h" // Kalman filter
 #include "./static.h"     // Static functions
 #include "./config.h"     // Configuration
 // #include <Blinker.h>      // Blink leds nicely
@@ -336,8 +336,10 @@ float angle_calculate(int16_t ax, int16_t ay, int16_t az,
                       float Q_angle, float Q_gyro,
                       float R_angle, float C_0, float K1)
 {
-  float Angle = -atan2(ay, az) * (180 / PI); // Radial rotation angle calculation formula ; negative sign is direction processing
-  float Gyro_x = -gx / 131;                  // The X-axis angular velocity calculated by the gyroscope;  the negative sign is the direction processing
+  // Radial rotation angle calculation formula ; negative sign is direction processing
+  float Angle = -atan2(ay, az) * (180 / PI);
+  // The X-axis angular velocity calculated by the gyroscope;  the negative sign is the direction processing
+  float Gyro_x = -gx / 131;
 
   kalman.run(angle, Angle, Gyro_x);
   angle = kalman.angle;
