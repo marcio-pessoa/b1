@@ -36,7 +36,7 @@ Project b1("b1",                                       // Platform
            "Marcio Pessoa <marcio.pessoa@gmail.com>"); // Contact
 
 // Kalman filter
-KalmanFilter kalman(dt, Q_angle, Q_gyro, C_0, R_angle);
+KalmanFilter kalman(deltaTime, Q_angle, Q_gyro, C_0, R_angle);
 
 // Status LED
 // Blinker status_led(led_status_pin);
@@ -235,7 +235,7 @@ void balancing()
 
   Gyro_z = angle_calculate(ax, ay, az,
                            gx, gy, gz,
-                           dt,
+                           deltaTime,
                            Q_angle, Q_gyro,
                            R_angle, C_0, K1); // get angle and Kalmam filtering
 

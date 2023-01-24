@@ -7,7 +7,7 @@ b1 is just a nice Self Balancing Robot.
 ## Cloning
 
 ``` sh
-git clone --recurse-submodules https://github.com/marcio-pessoa/b1.git
+git clone https://github.com/marcio-pessoa/b1.git
 ```
 
 ## Changes

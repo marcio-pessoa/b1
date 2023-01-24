@@ -57,8 +57,8 @@ const float Q_angle = 0.001; // Covariance of gyroscope noise
 const float Q_gyro = 0.003;  // Covariance of gyroscope drift noise
 const float R_angle = 0.5;   // Covariance of accelerometer
 const char C_0 = 1;
-const float dt = 0.005; // The value of dt is the filter sampling time
-const float K1 = 0.05;  // a function containing the Kalman gain is used to calculate the deviation of the optimal estimate
+const float deltaTime = 0.005; // The value of dt is the filter sampling time
+const float K1 = 0.05;         // a function containing the Kalman gain is used to calculate the deviation of the optimal estimate
 
 float angle;
 float angle_speed;
