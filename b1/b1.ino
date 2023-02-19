@@ -9,15 +9,16 @@
  * Contributors: none
  */
 
-#include <Arduino.h>       // Main library
-#include <MPU6050.h>       // MPU6050 library
-#include <MsTimer2.h>      // internal timer 2
-#include <PinChangeInt.h>  // Arduino REV4 as external interrupt
-#include <Project.h>       // Basic project definitions
-#include <Wire.h>          // IIC communication library
-#include "./config.h"      // Configuration
-#include "./static.h"      // Static functions
-#include "KalmanFilter.h"  // Kalman filter
+#include <Arduino.h>        // Main library
+#include <MPU6050.h>        // MPU6050 library
+#include <MsTimer2.h>       // internal timer 2
+#include <PinChangeInt.h>   // Arduino REV4 as external interrupt
+#include <Project.h>        // Basic project definitions
+#include <Wire.h>           // IIC communication library
+#include "./config.h"       // Configuration
+#include "./static.h"       // Static functions
+#include "KalmanFilter.h"   // Kalman filter
+#include "PIDcontroller.h"  // PID Controller
 // #include <Blinker.h>      // Blink leds nicely
 // #include <Timer.h>        // Timer library with nice features
 // #include <Alarm.h>        // Manage alarms
@@ -37,6 +38,9 @@ Project b1("b1",                                        // Platform
 
 // Kalman filter
 KalmanFilter kalman(deltaTime, Q_angle, Q_gyro, C_0, R_angle);
+
+// PID Controller
+PIDcontroller pid_controller;
 
 // Status LED
 // Blinker status_led(led_status_pin);
@@ -72,6 +76,7 @@ void setup() {
   // join I2C bus
   Wire.begin();
   delay(1500);
+
   // Start up message
   Serial.println("Starting...");
   // CommandM92(); // System information
@@ -231,7 +236,23 @@ void balancing() {
   cc++;
   // 5*8=40，enter PI algorithm of speed per 40ms
   if (cc >= 8) {
-    speedpiout(setp0);
+
+    pid_controller.pulseright = pulseright;
+    pid_controller.pulseleft = pulseleft;
+    pid_controller.speeds_filterold = speeds_filterold;
+    pid_controller.positions = positions;
+    pid_controller.PI_pwm = PI_pwm;
+    pid_controller.front = front;
+    pid_controller.back = back;
+
+    pid_controller.speedpiout(setp0);
+
+    pulseright = pid_controller.pulseright;
+    pulseleft = pid_controller.pulseleft;
+    speeds_filterold = pid_controller.speeds_filterold;
+    positions = pid_controller.positions;
+    PI_pwm = pid_controller.PI_pwm;
+
     cc = 0;  // Clear
   }
 
@@ -329,27 +350,6 @@ float angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
 
   // rotating angle Z-axis parameter
   return -gz / 131;  // angle speed of Z-axis
-}
-
-/// @brief speed PI
-/// @param step0 angle balance point
-void speedpiout(double step0) {
-  float speeds = (pulseleft + pulseright) * 1.0;  // speed  pulse value
-
-  pulseright = pulseleft = 0;  // clear
-  speeds_filterold *= 0.7;     // first-order complementary filtering
-
-  float speeds_filter = speeds_filterold + speeds * 0.3;
-  speeds_filterold = speeds_filter;
-
-  positions += speeds_filter;
-  positions += front;  // Forward control fusion
-
-  positions += back;                              // backward control fusion
-  positions = constrain(positions, -3550, 3550);  // Anti-integral saturation
-
-  PI_pwm = ki_speed * (step0 - positions) +
-           kp_speed * (step0 - speeds_filter);  // speed loop control PI
 }
 
 /// @brief turning
