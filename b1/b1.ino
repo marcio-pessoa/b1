@@ -319,13 +319,13 @@ float angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
   angle = kalman.angle;
   angle_speed = kalman.angle_speed;
 
-  float angleAx =
-      -atan2(ax, az) * (180 / PI);  // calculate the inclined angle with x-axis
+  // calculate the inclined angle with x-axis
+  float angleAx = -atan2(ax, az) * (180 / PI);
 
   float Gyro_y = -gy / 131.00;  // angle speed of Y-axis
 
-  angleY_one = Yiorderfilter(angleAx, Gyro_y, K1, angleY_one,
-                             dt);  // first-order filtering
+  // first-order filtering
+  angleY_one = K1 * angleAx + (1 - K1) * (angleY_one + Gyro_y * dt);
 
   // rotating angle Z-axis parameter
   return -gz / 131;  // angle speed of Z-axis
