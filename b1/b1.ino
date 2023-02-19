@@ -245,7 +245,8 @@ void balancing() {
 
 /// @brief PWM end value
 void anglePWM() {
-  int PD_pwm = PD(kp, angle, angle0, kd, angle_speed);  // angle loop PD control
+  // angle loop PD control
+  int PD_pwm = kp * (angle + angle0) + kd * angle_speed;
 
   pwm2 = -PD_pwm - PI_pwm + Turn_pwm;  // assign the end value of PWM to motor
   pwm1 = -PD_pwm - PI_pwm - Turn_pwm;
