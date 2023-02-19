@@ -24,10 +24,7 @@
  * Returns
  *   void
  */
-bool echo(String message)
-{
-  Serial.print(String(message));
-}
+bool echo(String message) { Serial.print(String(message)); }
 
 /*
  *
@@ -42,10 +39,7 @@ bool echo(String message)
  * Returns
  *   void
  */
-bool echoln(String message)
-{
-  echo(message + "\n");
-}
+bool echoln(String message) { echo(message + "\n"); }
 
 /*
  *
@@ -60,10 +54,8 @@ bool echoln(String message)
  * Returns
  *   void
  */
-void debug(String message)
-{
-  if (debug_mode)
-  {
+void debug(String message) {
+  if (debug_mode) {
     echo(message);
   }
 }
@@ -81,10 +73,8 @@ void debug(String message)
  * Returns
  *   void
  */
-void debugln(String message)
-{
-  if (debug_mode)
-  {
+void debugln(String message) {
+  if (debug_mode) {
     echoln(message);
   }
 }
@@ -102,10 +92,7 @@ void debugln(String message)
  * Returns
  *   void
  */
-void status(bool i)
-{
-  echoln(i == false ? F("ok") : F("nok"));
-}
+void status(bool i) { echoln(i == false ? F("ok") : F("nok")); }
 
 /*
  *

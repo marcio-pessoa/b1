@@ -21,8 +21,7 @@
  * Returns
  *   void
  */
-void CommandM100(char letter = 0)
-{
+void CommandM100(char letter = 0) {
   // if (letter == 'G' || letter == 0) {
   // echoln(F("G00\tRapid positioning"));
   // echoln(F("G01\tLinear interpolation"));
@@ -34,8 +33,7 @@ void CommandM100(char letter = 0)
   // echoln(F("G91\tIncremental programming"));
   // echoln(F("G132\tCalibrate axes"));
   //}
-  if (letter == 'M' || letter == 0)
-  {
+  if (letter == 'M' || letter == 0) {
     // echoln(F("M0\tCompulsory stop"));
     // echoln(F("M15\tSystem info"));
     // echoln(F("M17\tAttach motors"));
@@ -121,8 +119,7 @@ void CommandM100(char letter = 0)
  * Returns
  *   void
  */
-void CommandM99()
-{
+void CommandM99() {
   echoln("Reseting...\n");
   b1.reset();
 }
@@ -256,11 +253,9 @@ void CommandM99()
  * Returns
  *   void
  */
-void CommandM92()
-{
+void CommandM92() {
   echoln(b1.version());
-  if (debug || (millis() < 100))
-  {
+  if (debug || (millis() < 100)) {
     echoln(b1.owner());
     echoln(b1.compiled());
     echoln(b1.license());

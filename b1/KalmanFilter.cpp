@@ -6,8 +6,8 @@
  * Contributors: none
  */
 
-#include "Arduino.h"
 #include "KalmanFilter.h"
+#include "Arduino.h"
 
 /// @brief
 /// @param dt sampling time period
@@ -15,9 +15,8 @@
 /// @param q_gyro covariance of gyroscope drift noise
 /// @param c_0
 /// @param r_angle covariance of accelerometer
-KalmanFilter::KalmanFilter(float dt, float q_angle, float q_gyro,
-                           char c_0, float r_angle)
-{
+KalmanFilter::KalmanFilter(float dt, float q_angle, float q_gyro, char c_0,
+                           float r_angle) {
   _dt = dt;
   _q_angle = q_angle;
   _q_gyro = q_gyro;
@@ -27,10 +26,11 @@ KalmanFilter::KalmanFilter(float dt, float q_angle, float q_gyro,
 
 /// @brief
 /// @param myAngle
-/// @param angle_mRadial Radial rotation angle calculation formula ; negative sign is direction processing
-/// @param gyro_m The X-axis angular velocity calculated by the gyroscope; the negative sign is the direction processing
-void KalmanFilter::run(float myAngle, double angle_m, double gyro_m)
-{
+/// @param angle_mRadial Radial rotation angle calculation formula ; negative
+/// sign is direction processing
+/// @param gyro_m The X-axis angular velocity calculated by the gyroscope; the
+/// negative sign is the direction processing
+void KalmanFilter::run(float myAngle, double angle_m, double gyro_m) {
   // The differential of the covariance of the prior estimate error
   _pDot[0] = _q_angle - _p[0][1] - _p[1][0];
   _pDot[1] = -_p[1][1];
@@ -54,19 +54,19 @@ void KalmanFilter::run(float myAngle, double angle_m, double gyro_m)
   float K_0 = PCt_0 / E;
   float K_1 = PCt_1 / E;
 
-  float t_0 = PCt_0; // Intermediate variables in matrix multiplication
+  float t_0 = PCt_0;  // Intermediate variables in matrix multiplication
   float t_1 = _c_0 * _p[0][1];
 
-  _p[0][0] -= K_0 * t_0; // Posterior estimation error covariance
+  _p[0][0] -= K_0 * t_0;  // Posterior estimation error covariance
   _p[0][1] -= K_0 * t_1;
   _p[1][0] -= K_1 * t_0;
   _p[1][1] -= K_1 * t_1;
 
   angle = myAngle;
-  angle += (gyro_m - _q_bias) * _dt; // prior estimate
+  angle += (gyro_m - _q_bias) * _dt;  // prior estimate
   float angle_err = angle_m - angle;
 
-  _q_bias += K_1 * angle_err; // Posterior estimate
+  _q_bias += K_1 * angle_err;  // Posterior estimate
 
   // The differential of the output value gives the optimal angular velocity
   angle_speed = gyro_m - _q_bias;

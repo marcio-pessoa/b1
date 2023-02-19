@@ -13,9 +13,8 @@
 /// @param angleY_one
 /// @param samplingTime tilt calculation
 /// @return
-float Yiorderfilter(float angle_m, float gyro_m,
-                    float kalman1, float angleY_one, float samplingTime)
-{
+float Yiorderfilter(float angle_m, float gyro_m, float kalman1,
+                    float angleY_one, float samplingTime) {
   return kalman1 * angle_m +
          (1 - kalman1) * (angleY_one + gyro_m * samplingTime);
 }
@@ -27,7 +26,6 @@ float Yiorderfilter(float angle_m, float gyro_m,
 /// @param kd angle loop parameter
 /// @param angle_speed
 /// @return
-int PD(double kp, float angle, float angle0, double kd, float angle_speed)
-{
+int PD(double kp, float angle, float angle0, double kd, float angle_speed) {
   return kp * (angle + angle0) + kd * angle_speed;
 }
