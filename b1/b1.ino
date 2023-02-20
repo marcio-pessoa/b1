@@ -9,7 +9,8 @@
  * Contributors: none
  */
 
-#include <Arduino.h>        // Main library
+#include <Arduino.h>  // Main library
+#include <Debounce.h>
 #include <MPU6050.h>        // MPU6050 library
 #include <MsTimer2.h>       // internal timer 2
 #include <PinChangeInt.h>   // Arduino REV4 as external interrupt
@@ -37,6 +38,9 @@ Project b1("b1",                                        // Platform
 
 // PID Controller
 PIDcontroller pid_controller;
+
+// Button
+Debounce button = Debounce(button_pin, 500);
 
 // Status LED
 // Blinker status_led(led_status_pin);
@@ -105,7 +109,6 @@ void setup() {
   pinMode(PinA_left, INPUT);  // speed encoder input
   pinMode(PinA_right, INPUT);
 
-  pinMode(button_pin, INPUT);
   pinMode(buzzer_pin, OUTPUT);
 
   mpu6050.initialize();  // initialize MPU6050
@@ -125,14 +128,10 @@ void loop() {
   // PowerHandler();
   // GcodeCheck();
 
-  while (i < 1) {
-    button = digitalRead(button_pin);
-    if (button == 0) {
-      angle0 = -pid_controller.angle;
-      // Serial.println(angle0);
-      buzzer();
-      i++;
-    }
+  if (!button.check()) {
+    angle0 = -pid_controller.angle;
+    Serial.println(angle0);
+    buzzer();
   }
 
   if (Serial.available()) {
