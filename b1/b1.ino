@@ -198,7 +198,7 @@ void balancing() {
   guidance_counter++;
   // 20ms; enter PD algorithm of steering
   if (guidance_counter > guidance_counter_limit) {
-    turnspin();
+    pid_controller.turnspin();
     guidance_counter = 0;  // Clear
   }
 }
@@ -210,8 +210,10 @@ void anglePWM() {
       kp * (pid_controller.angle + angle0) + kd * pid_controller.angle_speed;
 
   // assign the end value of PWM to motor
-  pid_controller.pwm2 = -PD_pwm - pid_controller.PI_pwm + Turn_pwm;
-  pid_controller.pwm1 = -PD_pwm - pid_controller.PI_pwm - Turn_pwm;
+  pid_controller.pwm2 =
+      -PD_pwm - pid_controller.PI_pwm + pid_controller.Turn_pwm;
+  pid_controller.pwm1 =
+      -PD_pwm - pid_controller.PI_pwm - pid_controller.Turn_pwm;
 
   // limit PWM value not greater than255
   if (pid_controller.pwm1 > 255) {
@@ -251,57 +253,6 @@ void anglePWM() {
     digitalWrite(right_R2, LOW);
     analogWrite(PWM_R, -pid_controller.pwm1);
   }
-}
-
-/// @brief turning
-void turnspin() {
-  int flag = 0;  //
-  float turnspeed = 0;
-  float rotationratio = 0;
-
-  if (pid_controller.left == 1 || pid_controller.right == 1) {
-    if (flag ==
-        0)  // judge the speed before rotate, to increase the flexibility
-    {
-      // current speed ; express in pulse
-      turnspeed = (pid_controller.pulseright + pid_controller.pulseleft);
-      flag = 1;
-    }
-    if (turnspeed < 0)  // speed absolute value
-    {
-      turnspeed = -turnspeed;
-    }
-    // if press left key or right key
-    if (pid_controller.left == 1 || pid_controller.right == 1) {
-      turnmax = 3;   // max turning value
-      turnmin = -3;  // min turning value
-    }
-    rotationratio = 5 / turnspeed;  // speed setting value
-    if (rotationratio < 0.5) {
-      rotationratio = 0.5;
-    }
-
-    if (rotationratio > 5) {
-      rotationratio = 5;
-    }
-  } else {
-    rotationratio = 0.5;
-    flag = 0;
-    turnspeed = 0;
-  }
-  // plus according to direction parameter
-  if (pid_controller.left == 1) {
-    turnout += rotationratio;
-    // plus according to direction parameter
-  } else if (pid_controller.right == 1) {
-    turnout -= rotationratio;
-  } else
-    turnout = 0;
-  if (turnout > turnmax) turnout = turnmax;  // max value of amplitude
-  if (turnout < turnmin) turnout = turnmin;  // min value of amplitude
-
-  // turning PD algorithm control
-  Turn_pwm = -turnout * kp_turn - pid_controller.Gyro_z * kd_turn;
 }
 
 /// @brief

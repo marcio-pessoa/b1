@@ -106,3 +106,54 @@ void PIDcontroller::angleCalculate(int16_t ax, int16_t ay, int16_t az,
   // rotating angle Z-axis parameter
   Gyro_z = -gz / 131;  // angle speed of Z-axis
 }
+
+/// @brief turning
+void PIDcontroller::turnspin() {
+  int flag = 0;  //
+  float turnspeed = 0;
+  float rotationratio = 0;
+
+  if (left == 1 || right == 1) {
+    if (flag ==
+        0)  // judge the speed before rotate, to increase the flexibility
+    {
+      // current speed ; express in pulse
+      turnspeed = (pulseright + pulseleft);
+      flag = 1;
+    }
+    if (turnspeed < 0)  // speed absolute value
+    {
+      turnspeed = -turnspeed;
+    }
+    // if press left key or right key
+    if (left == 1 || right == 1) {
+      turnmax = 3;   // max turning value
+      turnmin = -3;  // min turning value
+    }
+    rotationratio = 5 / turnspeed;  // speed setting value
+    if (rotationratio < 0.5) {
+      rotationratio = 0.5;
+    }
+
+    if (rotationratio > 5) {
+      rotationratio = 5;
+    }
+  } else {
+    rotationratio = 0.5;
+    flag = 0;
+    turnspeed = 0;
+  }
+  // plus according to direction parameter
+  if (left == 1) {
+    turnout += rotationratio;
+    // plus according to direction parameter
+  } else if (right == 1) {
+    turnout -= rotationratio;
+  } else
+    turnout = 0;
+  if (turnout > turnmax) turnout = turnmax;  // max value of amplitude
+  if (turnout < turnmin) turnout = turnmin;  // min value of amplitude
+
+  // turning PD algorithm control
+  Turn_pwm = -turnout * kp_turn - Gyro_z * kd_turn;
+}

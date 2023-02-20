@@ -56,17 +56,13 @@ float angle0 = 0;  // mechanical balance angle (ideally 0 degrees)
 
 ////////////////////// PID parameter
 const double kp = 34, ki = 0, kd = 0.62;  // angle loop parameter
-const double kp_turn = 24, ki_turn = 0,
-             kd_turn = 0.08;  // steering loop parameter
 
 //////////////////////////////// PI variable parameter
 int speed_counter;
 const int speed_counter_limit = 8;
 
 ////////////////////////////// turning PD
-int turnmax, turnmin, turnout;
-float Turn_pwm = 0;
 int guidance_counter = 0;
-int guidance_counter_limit = 4;
+const int guidance_counter_limit = 4;
 
 int i, button;

@@ -25,9 +25,18 @@ class PIDcontroller {
   void countPulse();
   void angleCalculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
                       int16_t gy, int16_t gz);
+  void turnspin();
 
   // PID parameter
   float pwm1 = 0, pwm2 = 0;
+
+  // PID parameter
+  const double kp_turn = 24, ki_turn = 0,
+               kd_turn = 0.08;  // steering loop parameter
+
+  // turning PD
+  int turnmax, turnmin, turnout;
+  float Turn_pwm = 0;
 
   // pulse count
   int pulseright, pulseleft;
