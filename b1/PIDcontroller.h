@@ -31,8 +31,10 @@ class PIDcontroller {
   float pwm1 = 0, pwm2 = 0;
 
   // PID parameter
-  const double kp_turn = 24, ki_turn = 0,
-               kd_turn = 0.08;  // steering loop parameter
+  // angle loop parameter
+  const double kp = 34, ki = 0, kd = 0.62;
+  // steering loop parameter
+  const double kp_turn = 24, ki_turn = 0, kd_turn = 0.08;
 
   // turning PD
   int turnmax, turnmin, turnout;

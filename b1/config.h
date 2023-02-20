@@ -49,12 +49,7 @@ const byte buzzer_pin = 11;
 
 // Calibration
 const byte button_pin = 13;
-
-/////////////////////// angle parameters
 float angle0 = 0;  // mechanical balance angle (ideally 0 degrees)
-
-////////////////////// PID parameter
-const double kp = 34, ki = 0, kd = 0.62;  // angle loop parameter
 
 // PI (Proportional Integral)
 int speed_counter;
