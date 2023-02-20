@@ -35,6 +35,8 @@ class PIDcontroller {
   //
   int front = 0;  // forward variable
   int back = 0;   // backward
+  int left = 0;   // turn left
+  int right = 0;  // turn right
 
   // PI variable parameter
   float speeds_filterold = 0;

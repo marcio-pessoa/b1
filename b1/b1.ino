@@ -148,13 +148,14 @@ void loop() {
         pid_controller.back = -250;
         break;  // go back
       case 'L':
-        left = 1;
+        pid_controller.left = 1;
         break;  // urn left
       case 'R':
-        right = 1;
+        pid_controller.right = 1;
         break;  // turn right
       case 'S':
-        pid_controller.front = 0, pid_controller.back = 0, left = 0, right = 0;
+        pid_controller.front = 0, pid_controller.back = 0,
+        pid_controller.left = 0, pid_controller.right = 0;
         break;  // stop
       case 'D':
         Serial.print(pid_controller.angle);
@@ -257,7 +258,7 @@ void turnspin() {
   float turnspeed = 0;
   float rotationratio = 0;
 
-  if (left == 1 || right == 1) {
+  if (pid_controller.left == 1 || pid_controller.right == 1) {
     if (flag ==
         0)  // judge the speed before rotate, to increase the flexibility
     {
@@ -270,7 +271,7 @@ void turnspin() {
       turnspeed = -turnspeed;
     }
     // if press left key or right key
-    if (left == 1 || right == 1) {
+    if (pid_controller.left == 1 || pid_controller.right == 1) {
       turnmax = 3;   // max turning value
       turnmin = -3;  // min turning value
     }
@@ -288,10 +289,10 @@ void turnspin() {
     turnspeed = 0;
   }
   // plus according to direction parameter
-  if (left == 1) {
+  if (pid_controller.left == 1) {
     turnout += rotationratio;
     // plus according to direction parameter
-  } else if (right == 1) {
+  } else if (pid_controller.right == 1) {
     turnout -= rotationratio;
   } else
     turnout = 0;
