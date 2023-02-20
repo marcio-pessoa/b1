@@ -55,7 +55,6 @@ float angle0 = 0;  // mechanical balance angle (ideally 0 degrees)
 const double kp = 34, ki = 0, kd = 0.62;  // angle loop parameter
 const double kp_turn = 24, ki_turn = 0,
              kd_turn = 0.08;  // steering loop parameter
-const double setp0 = 0;
 
 //////////////////////////////// PI variable parameter
 int cc;
