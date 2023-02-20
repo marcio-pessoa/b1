@@ -10,7 +10,6 @@
  */
 
 #include <Arduino.h>        // Main library
-#include <Debounce.h>       // Avoid Bounce Effect Library
 #include <MPU6050.h>        // MPU6050 library
 #include <MsTimer2.h>       // internal timer 2
 #include <PinChangeInt.h>   // Arduino REV4 as external interrupt
@@ -43,9 +42,6 @@ PIDcontroller pid_controller;
 // Motor Driver
 HBridge motor_left = HBridge(left_L1, left_L2, PWM_L);
 HBridge motor_right = HBridge(right_R1, right_R2, PWM_R);
-
-// Button
-Debounce button = Debounce(button_pin, 500);
 
 // Status LED
 // Blinker status_led(led_status_pin);
@@ -123,10 +119,14 @@ void loop() {
   // PowerHandler();
   // GcodeCheck();
 
-  if (!button.check()) {
-    angle0 = -pid_controller.angle;
-    Serial.println(angle0);
-    buzzer();
+  while (i < 1) {
+    button = digitalRead(button_pin);
+    if (button == 0) {
+      angle0 = -pid_controller.angle;
+      // Serial.println(angle0);
+      buzzer();
+      i++;
+    }
   }
 
   if (Serial.available()) {
