@@ -178,52 +178,21 @@ void countLeftISR() { count_left++; }
 /// @brief Right speed encoder count ISR (Interrupt Service Routine).
 void countRightISR() { count_right++; }
 
-/// @brief pulse count
-void countpluse() {
-  lz = count_left;  // assign the value counted by encoder to lz
-  rz = count_right;
-
-  count_left = 0;  // Clear count quantity
-  count_right = 0;
-
-  lpluse = lz;
-  rpluse = rz;
-
-  if ((pwm1 < 0) &&
-      (pwm2 < 0))  // judge the car’s moving direction; if backward (PWM namely
-                   // motor voltage is negative), pulse is a negative number.
-  {
-    rpluse = -rpluse;
-    lpluse = -lpluse;
-  }
-  // if backward (PWM namely motor voltage is positive), pulse is a positive
-  // number.
-  else if ((pwm1 > 0) && (pwm2 > 0)) {
-    rpluse = rpluse;
-    lpluse = lpluse;
-  }
-  // judge the car’s moving direction; if turn left, right pulse is a positive
-  // number; left pulse is a negative number.
-  else if ((pwm1 < 0) && (pwm2 > 0)) {
-    rpluse = rpluse;
-    lpluse = -lpluse;
-  }
-  // judge the car’s moving direction; if turn right, right pulse is a negative
-  // number; left pulse is a positive number.
-  else if ((pwm1 > 0) && (pwm2 < 0)) {
-    rpluse = -rpluse;
-    lpluse = lpluse;
-  }
-
-  // enter interrupt per 5ms，pulse number plus
-  pulseright += rpluse;
-  pulseleft += lpluse;
-}
-
 /// @brief interrupt
 void balancing() {
-  sei();         // allow overall interrupt
-  countpluse();  // pulse plus subfunction
+  sei();  // allow overall interrupt
+
+  pid_controller.count_left = count_left;
+  pid_controller.count_right = count_right;
+  pid_controller.pulseright = pulseright;
+  pid_controller.pulseleft = pulseleft;
+
+  pid_controller.countpluse();  // pulse plus subfunction
+
+  count_left = pid_controller.count_left;
+  count_right = pid_controller.count_right;
+  pulseright = pid_controller.pulseright;
+  pulseleft = pid_controller.pulseleft;
 
   mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy,
                      &gz);  // IIC to get MPU6050 six-axis data

@@ -31,3 +31,45 @@ void PIDcontroller::speedpiout(double step0) {
   // speed loop control PI
   PI_pwm = KI_SPEED * (step0 - positions) + KI_SPEED * (step0 - speeds_filter);
 }
+
+/// @brief pulse count
+void PIDcontroller::countpluse() {
+  lz = count_left;  // assign the value counted by encoder to lz
+  rz = count_right;
+
+  count_left = 0;  // Clear count quantity
+  count_right = 0;
+
+  lpluse = lz;
+  rpluse = rz;
+
+  if ((pwm1 < 0) &&
+      (pwm2 < 0))  // judge the car’s moving direction; if backward (PWM namely
+                   // motor voltage is negative), pulse is a negative number.
+  {
+    rpluse = -rpluse;
+    lpluse = -lpluse;
+  }
+  // if backward (PWM namely motor voltage is positive), pulse is a positive
+  // number.
+  else if ((pwm1 > 0) && (pwm2 > 0)) {
+    rpluse = rpluse;
+    lpluse = lpluse;
+  }
+  // judge the car’s moving direction; if turn left, right pulse is a positive
+  // number; left pulse is a negative number.
+  else if ((pwm1 < 0) && (pwm2 > 0)) {
+    rpluse = rpluse;
+    lpluse = -lpluse;
+  }
+  // judge the car’s moving direction; if turn right, right pulse is a negative
+  // number; left pulse is a positive number.
+  else if ((pwm1 > 0) && (pwm2 < 0)) {
+    rpluse = -rpluse;
+    lpluse = lpluse;
+  }
+
+  // enter interrupt per 5ms，pulse number plus
+  pulseright += rpluse;
+  pulseleft += lpluse;
+}

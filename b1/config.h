@@ -78,10 +78,6 @@ volatile long count_right =
         // volatile long type is to ensure the value is valid)
 volatile long count_left = 0;
 ////////////////////// pulse count /////////////////////////
-int lz = 0;
-int rz = 0;
-int rpluse = 0;
-int lpluse = 0;
 int pulseright, pulseleft;
 //////////////////////////////// PI variable parameter
 float speeds_filterold = 0;
