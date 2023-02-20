@@ -182,15 +182,11 @@ void countRightISR() { pid_controller.count_right++; }
 void balancing() {
   sei();  // allow overall interrupt
 
-  pid_controller.pulseright = pulseright;
-  pid_controller.pulseleft = pulseleft;
   pid_controller.pwm1 = pwm1;
   pid_controller.pwm2 = pwm2;
 
   pid_controller.countpluse();  // pulse plus subfunction
 
-  pulseright = pid_controller.pulseright;
-  pulseleft = pid_controller.pulseleft;
   pwm1 = pid_controller.pwm1;
   pwm2 = pid_controller.pwm2;
 
@@ -206,16 +202,12 @@ void balancing() {
   // 5*8=40，enter PI algorithm of speed per 40ms
   if (cc >= 8) {
 
-    pid_controller.pulseright = pulseright;
-    pid_controller.pulseleft = pulseleft;
     pid_controller.PI_pwm = PI_pwm;
     pid_controller.front = front;
     pid_controller.back = back;
 
     pid_controller.speedpiout(setp0);
 
-    pulseright = pid_controller.pulseright;
-    pulseleft = pid_controller.pulseleft;
     PI_pwm = pid_controller.PI_pwm;
 
     cc = 0;  // Clear
@@ -327,7 +319,8 @@ void turnspin() {
     if (flag ==
         0)  // judge the speed before rotate, to increase the flexibility
     {
-      turnspeed = (pulseright + pulseleft);  // current speed ; express in pulse
+      // current speed ; express in pulse
+      turnspeed = (pid_controller.pulseright + pid_controller.pulseleft);
       flag = 1;
     }
     if (turnspeed < 0)  // speed absolute value

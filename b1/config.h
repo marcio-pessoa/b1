@@ -72,8 +72,6 @@ double kp_turn = 24, ki_turn = 0, kd_turn = 0.08;  // steering loop parameter
 double setp0 = 0;                                  // angle balance point
 float pwm1 = 0, pwm2 = 0;
 
-////////////////////// pulse count /////////////////////////
-int pulseright, pulseleft;
 //////////////////////////////// PI variable parameter
 double PI_pwm;
 int cc;
