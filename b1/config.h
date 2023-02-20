@@ -57,5 +57,3 @@ const int speed_counter_limit = 8;
 // PD (Proportional Derivative)
 int guidance_counter = 0;
 const int guidance_counter_limit = 4;
-
-int i, button;
