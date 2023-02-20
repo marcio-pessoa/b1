@@ -179,13 +179,13 @@ void countRightISR() { pid_controller.count_right++; }
 void balancing() {
   sei();  // allow overall interrupt
 
-  pid_controller.countpluse();  // pulse plus subfunction
-
   // IIC to get MPU6050 six-axis data
   mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
+  pid_controller.countPulse();  // pulse plus subfunction
+
   // Calculate angle filtered by Professor Kálmán
-  pid_controller.angle_calculate(ax, ay, az, gx, gy, gz);
+  pid_controller.angleCalculate(ax, ay, az, gx, gy, gz);
 
   anglePWM();
 
@@ -193,7 +193,7 @@ void balancing() {
   // 5*8=40，enter PI algorithm of speed per 40ms
   if (cc >= 8) {
     pid_controller.PI_pwm = PI_pwm;
-    pid_controller.speedpiout(setp0);
+    pid_controller.speedPIout(setp0);
     PI_pwm = pid_controller.PI_pwm;
     cc = 0;  // Clear
   }

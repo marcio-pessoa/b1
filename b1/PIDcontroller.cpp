@@ -13,7 +13,7 @@ PIDcontroller::PIDcontroller() {}
 
 /// @brief speed PI
 /// @param step0 angle balance point
-void PIDcontroller::speedpiout(double step0) {
+void PIDcontroller::speedPIout(double step0) {
   float speeds = (pulseleft + pulseright) * 1.0;  // speed  pulse value
 
   pulseright = pulseleft = 0;  // clear
@@ -33,7 +33,7 @@ void PIDcontroller::speedpiout(double step0) {
 }
 
 /// @brief pulse count
-void PIDcontroller::countpluse() {
+void PIDcontroller::countPulse() {
   _lz = count_left;  // assign the value counted by encoder to _lz
   _rz = count_right;
 
@@ -81,8 +81,8 @@ void PIDcontroller::countpluse() {
 /// @param gx
 /// @param gy
 /// @param gz
-void PIDcontroller::angle_calculate(int16_t ax, int16_t ay, int16_t az,
-                                    int16_t gx, int16_t gy, int16_t gz) {
+void PIDcontroller::angleCalculate(int16_t ax, int16_t ay, int16_t az,
+                                   int16_t gx, int16_t gy, int16_t gz) {
   // Radial rotation angle calculation formula; negative sign is direction
   // processing
   float sensorAngle = -atan2(ay, az) * (180 / PI);

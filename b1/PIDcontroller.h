@@ -21,10 +21,10 @@
 class PIDcontroller {
  public:
   PIDcontroller();
-  void speedpiout(double step0);
-  void countpluse();
-  void angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
-                       int16_t gy, int16_t gz);
+  void speedPIout(double step0);
+  void countPulse();
+  void angleCalculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
+                      int16_t gy, int16_t gz);
 
   // PID parameter
   float pwm1 = 0, pwm2 = 0;
