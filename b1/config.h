@@ -67,4 +67,4 @@ int turncc = 0;
 // Bluetooth
 char val;
 
-int i, button;
+int button;
