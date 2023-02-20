@@ -67,7 +67,6 @@ const float K1 = 0.05;  // a function containing the Kalman gain is used to
 double kp = 34, ki = 0, kd = 0.62;                 // angle loop parameter
 double kp_turn = 24, ki_turn = 0, kd_turn = 0.08;  // steering loop parameter
 double setp0 = 0;                                  // angle balance point
-float pwm1 = 0, pwm2 = 0;
 
 //////////////////////////////// PI variable parameter
 double PI_pwm;

@@ -179,13 +179,7 @@ void countRightISR() { pid_controller.count_right++; }
 void balancing() {
   sei();  // allow overall interrupt
 
-  pid_controller.pwm1 = pwm1;
-  pid_controller.pwm2 = pwm2;
-
   pid_controller.countpluse();  // pulse plus subfunction
-
-  pwm1 = pid_controller.pwm1;
-  pwm2 = pid_controller.pwm2;
 
   mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy,
                      &gz);  // IIC to get MPU6050 six-axis data
@@ -223,46 +217,47 @@ void anglePWM() {
   int PD_pwm =
       kp * (pid_controller.angle + angle0) + kd * pid_controller.angle_speed;
 
-  pwm2 = -PD_pwm - PI_pwm + Turn_pwm;  // assign the end value of PWM to motor
-  pwm1 = -PD_pwm - PI_pwm - Turn_pwm;
+  pid_controller.pwm2 =
+      -PD_pwm - PI_pwm + Turn_pwm;  // assign the end value of PWM to motor
+  pid_controller.pwm1 = -PD_pwm - PI_pwm - Turn_pwm;
 
   // limit PWM value not greater than255
-  if (pwm1 > 255) {
-    pwm1 = 255;
+  if (pid_controller.pwm1 > 255) {
+    pid_controller.pwm1 = 255;
   }
-  if (pwm1 < -255) {
-    pwm1 = -255;
+  if (pid_controller.pwm1 < -255) {
+    pid_controller.pwm1 = -255;
   }
-  if (pwm2 > 255) {
-    pwm2 = 255;
+  if (pid_controller.pwm2 > 255) {
+    pid_controller.pwm2 = 255;
   }
-  if (pwm2 < -255) {
-    pwm2 = -255;
+  if (pid_controller.pwm2 < -255) {
+    pid_controller.pwm2 = -255;
   }
 
   // if tilt angle is greater than 45°，motor will stop
   if (pid_controller.angle > 45 || pid_controller.angle < -45) {
-    pwm1 = pwm2 = 0;
+    pid_controller.pwm1 = pid_controller.pwm2 = 0;
   }
   // determine the motor steering and speed by negative and positive of PWM
-  if (pwm2 >= 0) {
+  if (pid_controller.pwm2 >= 0) {
     digitalWrite(left_L1, LOW);
     digitalWrite(left_L2, HIGH);
-    analogWrite(PWM_L, pwm2);
+    analogWrite(PWM_L, pid_controller.pwm2);
   } else {
     digitalWrite(left_L1, HIGH);
     digitalWrite(left_L2, LOW);
-    analogWrite(PWM_L, -pwm2);
+    analogWrite(PWM_L, -pid_controller.pwm2);
   }
 
-  if (pwm1 >= 0) {
+  if (pid_controller.pwm1 >= 0) {
     digitalWrite(right_R1, LOW);
     digitalWrite(right_R2, HIGH);
-    analogWrite(PWM_R, pwm1);
+    analogWrite(PWM_R, pid_controller.pwm1);
   } else {
     digitalWrite(right_R1, HIGH);
     digitalWrite(right_R2, LOW);
-    analogWrite(PWM_R, -pwm1);
+    analogWrite(PWM_R, -pid_controller.pwm1);
   }
 }
 

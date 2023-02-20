@@ -18,9 +18,6 @@
 #define KI_SPEED 0.072  // speed loop parameter
 #define KD_SPEED 0      // speed loop parameter
 
-// Kalman filter
-KalmanFilter kalman(deltaTime, Q_angle, Q_gyro, C_0, R_angle);
-
 class PIDcontroller {
  public:
   PIDcontroller();
@@ -55,6 +52,9 @@ class PIDcontroller {
   float angle;
   float angle_speed;
   float angleY_one;
+
+  // Kalman filter
+  KalmanFilter kalman;
 
  private:
   // pulse count
