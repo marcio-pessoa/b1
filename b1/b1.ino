@@ -19,10 +19,6 @@
 #include "./static.h"       // Static functions
 #include "HBridge.h"        // Motor Driver library
 #include "PIDcontroller.h"  // PID Controller
-// #include <Blinker.h>      // Blink leds nicely
-// #include <Timer.h>        // Timer library with nice features
-// #include <Alarm.h>        // Manage alarms
-// #include <Temperature.h>  // Temperature Sensors
 
 // Project definitions
 Project b1("b1",                                        // Platform
@@ -43,27 +39,6 @@ PIDcontroller pid_controller;
 HBridge motor_left = HBridge(left_L1, left_L2, PWM_L);
 HBridge motor_right = HBridge(right_R1, right_R2, PWM_R);
 
-// Status LED
-// Blinker status_led(led_status_pin);
-
-// Teperature sensor
-// Temperature lm35;
-// Alarm temperature(60,   // Maximum warning
-// 70,   // Maximum critical
-// 10,   // Minimum warning
-// 5);  // Minimum critical
-
-// Check timer
-// Timer health_check(health_check_timer * 1000);
-
-// Sensors timer
-// Timer sensors_status(sensors_timer * 1000);
-
-// Power save options
-// Timer standby((unsigned long)standby_timer * 60 * 1000, COUNTDOWN);
-// bool standby_status = false;
-// bool standby_done = false;
-
 // Instantiate an MPU6050 object; name mpu6050
 MPU6050 mpu6050;
 
@@ -83,15 +58,7 @@ void setup() {
   // Start up message
   Serial.println("Starting...");
   // CommandM92(); // System information
-  // Temperature
-  // lm35.attach(lm35_pin);
-  // temperature.nameWrite("Temperature");
-  // temperature.unitWrite(" *C");
-  // Random number generator seed
-  // pinMode(random_Seed_pin, INPUT);
-  // randomSeed(analogRead(random_Seed_pin));
-  // G-code ready to receive commands
-  // GcodeReady();
+  // GcodeReady();  // G-code ready to receive commands
 
   motor_right.backward(0);
   motor_left.forward(0);
@@ -112,11 +79,6 @@ void setup() {
 }
 
 void loop() {
-  // SensorsHandler();
-  // HealthCheckHandler();
-  // NotificationHandler();
-  // AxesHandler();
-  // PowerHandler();
   // GcodeCheck();
 
   while (i < 1) {
