@@ -186,6 +186,8 @@ void balancing() {
   pid_controller.count_right = count_right;
   pid_controller.pulseright = pulseright;
   pid_controller.pulseleft = pulseleft;
+  pid_controller.pwm1 = pwm1;
+  pid_controller.pwm2 = pwm2;
 
   pid_controller.countpluse();  // pulse plus subfunction
 
@@ -193,6 +195,8 @@ void balancing() {
   count_right = pid_controller.count_right;
   pulseright = pid_controller.pulseright;
   pulseleft = pid_controller.pulseleft;
+  pwm1 = pid_controller.pwm1;
+  pwm2 = pid_controller.pwm2;
 
   mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy,
                      &gz);  // IIC to get MPU6050 six-axis data
