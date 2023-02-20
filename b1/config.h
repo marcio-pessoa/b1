@@ -60,11 +60,13 @@ const double kp_turn = 24, ki_turn = 0,
              kd_turn = 0.08;  // steering loop parameter
 
 //////////////////////////////// PI variable parameter
-int cc;
+int speed_counter;
+const int speed_counter_limit = 8;
 
 ////////////////////////////// turning PD
 int turnmax, turnmin, turnout;
 float Turn_pwm = 0;
-int turncc = 0;
+int guidance_counter = 0;
+int guidance_counter_limit = 4;
 
 int i, button;

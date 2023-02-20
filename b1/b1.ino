@@ -188,18 +188,18 @@ void balancing() {
 
   anglePWM();
 
-  cc++;
+  speed_counter++;
   // 5*8=40，enter PI algorithm of speed per 40ms
-  if (cc >= 8) {
+  if (speed_counter >= speed_counter_limit) {
     pid_controller.speedPIout();
-    cc = 0;  // Clear
+    speed_counter = 0;  // Clear
   }
 
-  turncc++;
+  guidance_counter++;
   // 20ms; enter PD algorithm of steering
-  if (turncc > 4) {
+  if (guidance_counter > guidance_counter_limit) {
     turnspin();
-    turncc = 0;  // Clear
+    guidance_counter = 0;  // Clear
   }
 }
 
