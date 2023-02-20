@@ -74,7 +74,7 @@ void PIDcontroller::countPulse() {
   pulseleft += _lpluse;
 }
 
-/// @brief Tilt calculation.
+/// @brief Tilt calculation. Calculate angle filtered by Professor Kálmán
 /// @param ax
 /// @param ay
 /// @param az

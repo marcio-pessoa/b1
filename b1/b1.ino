@@ -179,12 +179,9 @@ void countRightISR() { pid_controller.count_right++; }
 void balancing() {
   sei();  // allow overall interrupt
 
-  // IIC to get MPU6050 six-axis data
-  mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+  mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);  // MPU6050 six axis data
 
-  pid_controller.countPulse();  // pulse plus subfunction
-
-  // Calculate angle filtered by Professor Kálmán
+  pid_controller.countPulse();
   pid_controller.angleCalculate(ax, ay, az, gx, gy, gz);
 
   anglePWM();
@@ -192,9 +189,7 @@ void balancing() {
   cc++;
   // 5*8=40，enter PI algorithm of speed per 40ms
   if (cc >= 8) {
-    pid_controller.PI_pwm = PI_pwm;
     pid_controller.speedPIout(setp0);
-    PI_pwm = pid_controller.PI_pwm;
     cc = 0;  // Clear
   }
 
@@ -212,9 +207,9 @@ void anglePWM() {
   int PD_pwm =
       kp * (pid_controller.angle + angle0) + kd * pid_controller.angle_speed;
 
-  pid_controller.pwm2 =
-      -PD_pwm - PI_pwm + Turn_pwm;  // assign the end value of PWM to motor
-  pid_controller.pwm1 = -PD_pwm - PI_pwm - Turn_pwm;
+  // assign the end value of PWM to motor
+  pid_controller.pwm2 = -PD_pwm - pid_controller.PI_pwm + Turn_pwm;
+  pid_controller.pwm1 = -PD_pwm - pid_controller.PI_pwm - Turn_pwm;
 
   // limit PWM value not greater than255
   if (pid_controller.pwm1 > 255) {
