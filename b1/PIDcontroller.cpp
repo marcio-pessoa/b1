@@ -73,3 +73,44 @@ void PIDcontroller::countpluse() {
   pulseright += _rpluse;
   pulseleft += _lpluse;
 }
+
+/// @brief Tilt calculation.
+/// @param ax
+/// @param ay
+/// @param az
+/// @param gx
+/// @param gy
+/// @param gz
+/// @param dt The value of dt is the filter sampling time
+/// @param Q_angle
+/// @param Q_gyro
+/// @param R_angle
+/// @param C_0
+/// @param K1
+float PIDcontroller::angle_calculate(int16_t ax, int16_t ay, int16_t az,
+                                     int16_t gx, int16_t gy, int16_t gz,
+                                     float dt, float Q_angle, float Q_gyro,
+                                     float R_angle, float C_0, float K1) {
+  // Radial rotation angle calculation formula; negative sign is direction
+  // processing
+  float sensorAngle = -atan2(ay, az) * (180 / PI);
+
+  // The X-axis angular velocity calculated by the gyroscope;  the negative sign
+  // is the direction processing
+  float Gyro_x = -gx / 131;
+
+  kalman.run(angle, sensorAngle, Gyro_x);
+  angle = kalman.angle;
+  angle_speed = kalman.angle_speed;
+
+  // calculate the inclined angle with x-axis
+  float angleAx = -atan2(ax, az) * (180 / PI);
+
+  float Gyro_y = -gy / 131.00;  // angle speed of Y-axis
+
+  // first-order filtering
+  angleY_one = K1 * angleAx + (1 - K1) * (angleY_one + Gyro_y * dt);
+
+  // rotating angle Z-axis parameter
+  return -gz / 131;  // angle speed of Z-axis
+}

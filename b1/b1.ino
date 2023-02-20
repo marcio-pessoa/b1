@@ -17,7 +17,6 @@
 #include <Wire.h>           // IIC communication library
 #include "./config.h"       // Configuration
 #include "./static.h"       // Static functions
-#include "KalmanFilter.h"   // Kalman filter
 #include "PIDcontroller.h"  // PID Controller
 // #include <Blinker.h>      // Blink leds nicely
 // #include <Timer.h>        // Timer library with nice features
@@ -35,9 +34,6 @@ Project b1("b1",                                        // Platform
            "GPLv2. There is NO WARRANTY.",              // License
            "https://github.com/marcio-pessoa/b1",       // Website
            "Marcio Pessoa <marcio.pessoa@gmail.com>");  // Contact
-
-// Kalman filter
-KalmanFilter kalman(deltaTime, Q_angle, Q_gyro, C_0, R_angle);
 
 // PID Controller
 PIDcontroller pid_controller;
@@ -132,7 +128,7 @@ void loop() {
   while (i < 1) {
     button = digitalRead(btn);
     if (button == 0) {
-      angle0 = -angle;
+      angle0 = -pid_controller.angle;
       // Serial.println(angle0);
       buzzer();
       i++;
@@ -161,7 +157,7 @@ void loop() {
         pid_controller.front = 0, pid_controller.back = 0, left = 0, right = 0;
         break;  // stop
       case 'D':
-        Serial.print(angle);
+        Serial.print(pid_controller.angle);
         break;
     }
   }
@@ -194,8 +190,9 @@ void balancing() {
   mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy,
                      &gz);  // IIC to get MPU6050 six-axis data
 
-  Gyro_z = angle_calculate(ax, ay, az, gx, gy, gz, deltaTime, Q_angle, Q_gyro,
-                           R_angle, C_0, K1);  // get angle and Kalmam filtering
+  // get angle and Kalmam filtering
+  Gyro_z = pid_controller.angle_calculate(ax, ay, az, gx, gy, gz, deltaTime,
+                                          Q_angle, Q_gyro, R_angle, C_0, K1);
 
   anglePWM();
 
@@ -223,7 +220,8 @@ void balancing() {
 /// @brief PWM end value
 void anglePWM() {
   // angle loop PD control
-  int PD_pwm = kp * (angle + angle0) + kd * angle_speed;
+  int PD_pwm =
+      kp * (pid_controller.angle + angle0) + kd * pid_controller.angle_speed;
 
   pwm2 = -PD_pwm - PI_pwm + Turn_pwm;  // assign the end value of PWM to motor
   pwm1 = -PD_pwm - PI_pwm - Turn_pwm;
@@ -243,7 +241,7 @@ void anglePWM() {
   }
 
   // if tilt angle is greater than 45°，motor will stop
-  if (angle > 45 || angle < -45) {
+  if (pid_controller.angle > 45 || pid_controller.angle < -45) {
     pwm1 = pwm2 = 0;
   }
   // determine the motor steering and speed by negative and positive of PWM
@@ -266,46 +264,6 @@ void anglePWM() {
     digitalWrite(right_R2, LOW);
     analogWrite(PWM_R, -pwm1);
   }
-}
-
-/// @brief Tilt calculation.
-/// @param ax
-/// @param ay
-/// @param az
-/// @param gx
-/// @param gy
-/// @param gz
-/// @param dt The value of dt is the filter sampling time
-/// @param Q_angle
-/// @param Q_gyro
-/// @param R_angle
-/// @param C_0
-/// @param K1
-float angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
-                      int16_t gy, int16_t gz, float dt, float Q_angle,
-                      float Q_gyro, float R_angle, float C_0, float K1) {
-  // Radial rotation angle calculation formula; negative sign is direction
-  // processing
-  float sensorAngle = -atan2(ay, az) * (180 / PI);
-
-  // The X-axis angular velocity calculated by the gyroscope;  the negative sign
-  // is the direction processing
-  float Gyro_x = -gx / 131;
-
-  kalman.run(angle, sensorAngle, Gyro_x);
-  angle = kalman.angle;
-  angle_speed = kalman.angle_speed;
-
-  // calculate the inclined angle with x-axis
-  float angleAx = -atan2(ax, az) * (180 / PI);
-
-  float Gyro_y = -gy / 131.00;  // angle speed of Y-axis
-
-  // first-order filtering
-  angleY_one = K1 * angleAx + (1 - K1) * (angleY_one + Gyro_y * dt);
-
-  // rotating angle Z-axis parameter
-  return -gz / 131;  // angle speed of Z-axis
 }
 
 /// @brief turning

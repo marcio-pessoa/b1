@@ -61,9 +61,6 @@ const float deltaTime = 0.005;  // The value of dt is the filter sampling time
 const float K1 = 0.05;  // a function containing the Kalman gain is used to
                         // calculate the deviation of the optimal estimate
 
-float angle;
-float angle_speed;
-float angleY_one;
 ////////////////////// Kalman_Filter
 
 ////////////////////// PID parameter

@@ -12,16 +12,23 @@
 #define PIDcontroller_h
 
 #include "Arduino.h"
+#include "KalmanFilter.h"  // Kalman filter
 
 #define KP_SPEED 3.56   // speed loop parameter
 #define KI_SPEED 0.072  // speed loop parameter
 #define KD_SPEED 0      // speed loop parameter
+
+// Kalman filter
+KalmanFilter kalman(deltaTime, Q_angle, Q_gyro, C_0, R_angle);
 
 class PIDcontroller {
  public:
   PIDcontroller();
   void speedpiout(double step0);
   void countpluse();
+  float angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
+                        int16_t gy, int16_t gz, float dt, float Q_angle,
+                        float Q_gyro, float R_angle, float C_0, float K1);
 
   // PID parameter
   float pwm1 = 0, pwm2 = 0;
@@ -43,6 +50,11 @@ class PIDcontroller {
   volatile long count_right = 0;
   // (the volatile long type is to ensure the value is valid)
   volatile long count_left = 0;
+
+  // Kalman filter
+  float angle;
+  float angle_speed;
+  float angleY_one;
 
  private:
   // pulse count
