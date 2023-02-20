@@ -44,8 +44,11 @@ const int left_L2 = 6;
 const int PWM_R = 10;
 const int PWM_L = 9;
 
-const int buz = 11;
-const int btn = 13;
+// Buzzer
+const byte buzzer_pin = 11;
+
+// Calibration
+const byte button_pin = 13;
 
 /////////////////////// angle parameters
 float angle0 = 0;  // mechanical balance angle (ideally 0 degrees)

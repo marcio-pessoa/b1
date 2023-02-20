@@ -105,8 +105,8 @@ void setup() {
   pinMode(PinA_left, INPUT);  // speed encoder input
   pinMode(PinA_right, INPUT);
 
-  pinMode(btn, INPUT);
-  pinMode(buz, OUTPUT);
+  pinMode(button_pin, INPUT);
+  pinMode(buzzer_pin, OUTPUT);
 
   mpu6050.initialize();  // initialize MPU6050
   delay(2);
@@ -126,7 +126,7 @@ void loop() {
   // GcodeCheck();
 
   while (i < 1) {
-    button = digitalRead(btn);
+    button = digitalRead(button_pin);
     if (button == 0) {
       angle0 = -pid_controller.angle;
       // Serial.println(angle0);
@@ -307,16 +307,16 @@ void turnspin() {
 /// @brief
 void buzzer() {
   for (int i = 0; i < 50; i++) {
-    digitalWrite(buz, HIGH);
+    digitalWrite(buzzer_pin, HIGH);
     delay(1);
-    digitalWrite(buz, LOW);
+    digitalWrite(buzzer_pin, LOW);
     delay(1);
   }
   delay(50);
   for (int i = 0; i < 50; i++) {
-    digitalWrite(buz, HIGH);
+    digitalWrite(buzzer_pin, HIGH);
     delay(1);
-    digitalWrite(buz, LOW);
+    digitalWrite(buzzer_pin, LOW);
     delay(1);
   }
 }
