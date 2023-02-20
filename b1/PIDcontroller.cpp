@@ -87,10 +87,10 @@ void PIDcontroller::countpluse() {
 /// @param R_angle
 /// @param C_0
 /// @param K1
-float PIDcontroller::angle_calculate(int16_t ax, int16_t ay, int16_t az,
-                                     int16_t gx, int16_t gy, int16_t gz,
-                                     float dt, float Q_angle, float Q_gyro,
-                                     float R_angle, float C_0, float K1) {
+void PIDcontroller::angle_calculate(int16_t ax, int16_t ay, int16_t az,
+                                    int16_t gx, int16_t gy, int16_t gz,
+                                    float dt, float Q_angle, float Q_gyro,
+                                    float R_angle, float C_0, float K1) {
   // Radial rotation angle calculation formula; negative sign is direction
   // processing
   float sensorAngle = -atan2(ay, az) * (180 / PI);
@@ -112,5 +112,5 @@ float PIDcontroller::angle_calculate(int16_t ax, int16_t ay, int16_t az,
   angleY_one = K1 * angleAx + (1 - K1) * (angleY_one + Gyro_y * dt);
 
   // rotating angle Z-axis parameter
-  return -gz / 131;  // angle speed of Z-axis
+  Gyro_z = -gz / 131;  // angle speed of Z-axis
 }

@@ -181,25 +181,21 @@ void balancing() {
 
   pid_controller.countpluse();  // pulse plus subfunction
 
-  mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy,
-                     &gz);  // IIC to get MPU6050 six-axis data
+  // IIC to get MPU6050 six-axis data
+  mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
-  // get angle and Kalmam filtering
-  Gyro_z = pid_controller.angle_calculate(ax, ay, az, gx, gy, gz, deltaTime,
-                                          Q_angle, Q_gyro, R_angle, C_0, K1);
+  // Calculate angle filtered by Professor Kálmán
+  pid_controller.angle_calculate(ax, ay, az, gx, gy, gz, deltaTime, Q_angle,
+                                 Q_gyro, R_angle, C_0, K1);
 
   anglePWM();
 
   cc++;
   // 5*8=40，enter PI algorithm of speed per 40ms
   if (cc >= 8) {
-
     pid_controller.PI_pwm = PI_pwm;
-
     pid_controller.speedpiout(setp0);
-
     PI_pwm = pid_controller.PI_pwm;
-
     cc = 0;  // Clear
   }
 
@@ -308,8 +304,8 @@ void turnspin() {
   if (turnout > turnmax) turnout = turnmax;  // max value of amplitude
   if (turnout < turnmin) turnout = turnmin;  // min value of amplitude
 
-  Turn_pwm =
-      -turnout * kp_turn - Gyro_z * kd_turn;  // turning PD algorithm control
+  // turning PD algorithm control
+  Turn_pwm = -turnout * kp_turn - pid_controller.Gyro_z * kd_turn;
 }
 
 /// @brief

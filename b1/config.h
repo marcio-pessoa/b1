@@ -49,7 +49,6 @@ const int btn = 13;
 
 /////////////////////// angle parameters
 float angle0 = 0;  // mechanical balance angle (ideally 0 degrees)
-float Gyro_z;      // Angular angular velocity by gyroscope calculation
 /////////////////////// angle parameter
 
 /////////////////////// Kalman_Filter

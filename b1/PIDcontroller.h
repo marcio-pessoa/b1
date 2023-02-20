@@ -23,9 +23,9 @@ class PIDcontroller {
   PIDcontroller();
   void speedpiout(double step0);
   void countpluse();
-  float angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
-                        int16_t gy, int16_t gz, float dt, float Q_angle,
-                        float Q_gyro, float R_angle, float C_0, float K1);
+  void angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
+                       int16_t gy, int16_t gz, float dt, float Q_angle,
+                       float Q_gyro, float R_angle, float C_0, float K1);
 
   // PID parameter
   float pwm1 = 0, pwm2 = 0;
@@ -47,6 +47,9 @@ class PIDcontroller {
   volatile long count_right = 0;
   // (the volatile long type is to ensure the value is valid)
   volatile long count_left = 0;
+
+  // Angular angular velocity by gyroscope calculation
+  float Gyro_z;
 
   // Kalman filter
   float angle;
