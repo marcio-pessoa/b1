@@ -9,8 +9,8 @@
  * Contributors: none
  */
 
-#include <Arduino.h>  // Main library
-#include <Debounce.h>
+#include <Arduino.h>        // Main library
+#include <Debounce.h>       // Avoid Bounce Effect Library
 #include <MPU6050.h>        // MPU6050 library
 #include <MsTimer2.h>       // internal timer 2
 #include <PinChangeInt.h>   // Arduino REV4 as external interrupt
@@ -18,6 +18,7 @@
 #include <Wire.h>           // IIC communication library
 #include "./config.h"       // Configuration
 #include "./static.h"       // Static functions
+#include "HBridge.h"        // Motor Driver library
 #include "PIDcontroller.h"  // PID Controller
 // #include <Blinker.h>      // Blink leds nicely
 // #include <Timer.h>        // Timer library with nice features
@@ -41,6 +42,10 @@ PIDcontroller pid_controller;
 
 // Button
 Debounce button = Debounce(button_pin, 500);
+
+// Motor Driver
+HBridge motor_left = HBridge(left_L1, left_L2, PWM_L);
+HBridge motor_right = HBridge(right_R1, right_R2, PWM_R);
 
 // Status LED
 // Blinker status_led(led_status_pin);
@@ -90,21 +95,8 @@ void setup() {
   // G-code ready to receive commands
   // GcodeReady();
 
-  // set the motor control pins to OUTPUT
-  pinMode(right_R1, OUTPUT);
-  pinMode(right_R2, OUTPUT);
-  pinMode(left_L1, OUTPUT);
-  pinMode(left_L2, OUTPUT);
-  pinMode(PWM_R, OUTPUT);
-  pinMode(PWM_L, OUTPUT);
-
-  // assign the initial state value
-  digitalWrite(right_R1, 1);
-  digitalWrite(right_R2, 0);
-  digitalWrite(left_L1, 0);
-  digitalWrite(left_L2, 1);
-  analogWrite(PWM_R, 0);
-  analogWrite(PWM_L, 0);
+  motor_right.backward(0);
+  motor_left.forward(0);
 
   pinMode(PinA_left, INPUT);  // speed encoder input
   pinMode(PinA_right, INPUT);
@@ -234,23 +226,15 @@ void anglePWM() {
   }
   // determine the motor steering and speed by negative and positive of PWM
   if (pid_controller.pwm2 >= 0) {
-    digitalWrite(left_L1, LOW);
-    digitalWrite(left_L2, HIGH);
-    analogWrite(PWM_L, pid_controller.pwm2);
+    motor_left.forward(pid_controller.pwm2);
   } else {
-    digitalWrite(left_L1, HIGH);
-    digitalWrite(left_L2, LOW);
-    analogWrite(PWM_L, -pid_controller.pwm2);
+    motor_left.backward(pid_controller.pwm2);
   }
 
   if (pid_controller.pwm1 >= 0) {
-    digitalWrite(right_R1, LOW);
-    digitalWrite(right_R2, HIGH);
-    analogWrite(PWM_R, pid_controller.pwm1);
+    motor_right.forward(pid_controller.pwm1);
   } else {
-    digitalWrite(right_R1, HIGH);
-    digitalWrite(right_R2, LOW);
-    analogWrite(PWM_R, -pid_controller.pwm1);
+    motor_right.backward(pid_controller.pwm1);
   }
 }
 

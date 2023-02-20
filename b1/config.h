@@ -35,13 +35,12 @@ const unsigned long serial_speed = 9600;
 //
 // const float FLIMIT = 340282350000000000000000000000000000000;
 
+// Motors
 const int right_R1 = 8;
 const int right_R2 = 12;
-
+const int PWM_R = 10;
 const int left_L1 = 7;
 const int left_L2 = 6;
-
-const int PWM_R = 10;
 const int PWM_L = 9;
 
 // Buzzer
