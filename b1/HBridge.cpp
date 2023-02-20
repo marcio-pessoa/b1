@@ -23,12 +23,16 @@ HBridge::HBridge(byte pin1, byte pin2, byte pwm_pin) {
   pinMode(_pwm_pin, OUTPUT);
 }
 
+/// @brief
+/// @param pwm
 void HBridge::forward(int pwm) {
   digitalWrite(_pin1, LOW);
   digitalWrite(_pin2, HIGH);
   analogWrite(_pwm_pin, pwm);
 }
 
+/// @brief
+/// @param pwm
 void HBridge::backward(int pwm) {
   digitalWrite(_pin1, HIGH);
   digitalWrite(_pin2, LOW);

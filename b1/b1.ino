@@ -68,9 +68,11 @@ HBridge motor_right = HBridge(right_R1, right_R2, PWM_R);
 // bool standby_status = false;
 // bool standby_done = false;
 
-MPU6050 mpu6050;  // Instantiate an MPU6050 object; name mpu6050
-int16_t ax, ay, az, gx, gy,
-    gz;  // Define three-axis acceleration, three-axis gyroscope variables
+// Instantiate an MPU6050 object; name mpu6050
+MPU6050 mpu6050;
+
+// Define three-axis acceleration, three-axis gyroscope variables
+int16_t ax, ay, az, gx, gy, gz;
 
 #define PinA_left 5   // external interrupt, interrupt speed count
 #define PinA_right 4  // external interrupt, interrupt speed count

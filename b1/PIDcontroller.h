@@ -33,15 +33,9 @@ class PIDcontroller {
   // PID parameter
   // angle loop parameter
   const double kp = 34, ki = 0, kd = 0.62;
-  // steering loop parameter
-  const double kp_turn = 24, ki_turn = 0, kd_turn = 0.08;
 
   // turning PD
-  int turnmax, turnmin, turnout;
   float Turn_pwm = 0;
-
-  // pulse count
-  int pulseright, pulseleft;
 
   //
   int front = 0;  // forward variable
@@ -50,8 +44,6 @@ class PIDcontroller {
   int right = 0;  // turn right
 
   // PI variable parameter
-  float speeds_filterold = 0;
-  float positions = 0;
   double PI_pwm;
 
   // interrupt speed count
@@ -60,14 +52,13 @@ class PIDcontroller {
   // (the volatile long type is to ensure the value is valid)
   volatile long count_left = 0;
 
-  // Angular angular velocity by gyroscope calculation
-  float Gyro_z;
-
   // Kalman filter
   float angle;
   float angle_speed;
   float angleY_one;
 
+ private:
+  // Kalman filter
   const float Q_angle = 0.001;  // Covariance of gyroscope noise
   const float Q_gyro = 0.003;   // Covariance of gyroscope drift noise
   const float R_angle = 0.5;    // Covariance of accelerometer
@@ -76,15 +67,30 @@ class PIDcontroller {
   const float K1 = 0.05;  // a function containing the Kalman gain is used to
                           // calculate the deviation of the optimal estimate
 
-  // Kalman filter
-  KalmanFilter kalman;
+  KalmanFilter kalman = KalmanFilter(deltaTime, Q_angle, Q_gyro, C_0, R_angle);
 
- private:
+  // PID parameter
+  // steering loop parameter
+  const double kp_turn = 24, ki_turn = 0, kd_turn = 0.08;
+
+  // PI variable parameter
+  float speeds_filterold = 0;
+  float positions = 0;
+
   // pulse count
   int _lz = 0;
   int _rz = 0;
   int _rpluse = 0;
   int _lpluse = 0;
+
+  // Angular angular velocity by gyroscope calculation
+  float Gyro_z;
+
+  // turning PD
+  int turnmax, turnmin, turnout;
+
+  // pulse count
+  int pulseright, pulseleft;
 };
 
 #endif

@@ -15,8 +15,7 @@
 
 class KalmanFilter {
  public:
-  KalmanFilter(float dt = 0.005, float q_angle = 0.001, float q_gyro = 0.003,
-               char c_0 = 1, float r_angle = 0.5);
+  KalmanFilter(float dt, float q_angle, float q_gyro, char c_0, float r_angle);
   void run(float myAngle, double angle_m, double gyro_m);
   float angle;
   float angle_speed;
