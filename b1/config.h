@@ -52,16 +52,15 @@ const byte button_pin = 13;
 
 /////////////////////// angle parameters
 float angle0 = 0;  // mechanical balance angle (ideally 0 degrees)
-/////////////////////// angle parameter
 
 ////////////////////// PID parameter
 const double kp = 34, ki = 0, kd = 0.62;  // angle loop parameter
 
-//////////////////////////////// PI variable parameter
+// PI (Proportional Integral)
 int speed_counter;
 const int speed_counter_limit = 8;
 
-////////////////////////////// turning PD
+// PD (Proportional Derivative)
 int guidance_counter = 0;
 const int guidance_counter_limit = 4;
 
