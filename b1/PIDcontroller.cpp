@@ -34,42 +34,42 @@ void PIDcontroller::speedpiout(double step0) {
 
 /// @brief pulse count
 void PIDcontroller::countpluse() {
-  lz = count_left;  // assign the value counted by encoder to lz
-  rz = count_right;
+  _lz = count_left;  // assign the value counted by encoder to _lz
+  _rz = count_right;
 
   count_left = 0;  // Clear count quantity
   count_right = 0;
 
-  lpluse = lz;
-  rpluse = rz;
+  _lpluse = _lz;
+  _rpluse = _rz;
 
   if ((pwm1 < 0) &&
       (pwm2 < 0))  // judge the car’s moving direction; if backward (PWM namely
                    // motor voltage is negative), pulse is a negative number.
   {
-    rpluse = -rpluse;
-    lpluse = -lpluse;
+    _rpluse = -_rpluse;
+    _lpluse = -_lpluse;
   }
   // if backward (PWM namely motor voltage is positive), pulse is a positive
   // number.
   else if ((pwm1 > 0) && (pwm2 > 0)) {
-    rpluse = rpluse;
-    lpluse = lpluse;
+    _rpluse = _rpluse;
+    _lpluse = _lpluse;
   }
   // judge the car’s moving direction; if turn left, right pulse is a positive
   // number; left pulse is a negative number.
   else if ((pwm1 < 0) && (pwm2 > 0)) {
-    rpluse = rpluse;
-    lpluse = -lpluse;
+    _rpluse = _rpluse;
+    _lpluse = -_lpluse;
   }
   // judge the car’s moving direction; if turn right, right pulse is a negative
   // number; left pulse is a positive number.
   else if ((pwm1 > 0) && (pwm2 < 0)) {
-    rpluse = -rpluse;
-    lpluse = lpluse;
+    _rpluse = -_rpluse;
+    _lpluse = _lpluse;
   }
 
   // enter interrupt per 5ms，pulse number plus
-  pulseright += rpluse;
-  pulseleft += lpluse;
+  pulseright += _rpluse;
+  pulseleft += _lpluse;
 }

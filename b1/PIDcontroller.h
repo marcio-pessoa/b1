@@ -27,10 +27,6 @@ class PIDcontroller {
   float pwm1 = 0, pwm2 = 0;
 
   // pulse count
-  int lz = 0;
-  int rz = 0;
-  int rpluse = 0;
-  int lpluse = 0;
   int pulseright, pulseleft;
 
   //
@@ -49,6 +45,11 @@ class PIDcontroller {
   volatile long count_left = 0;
 
  private:
+  // pulse count
+  int _lz = 0;
+  int _rz = 0;
+  int _rpluse = 0;
+  int _lpluse = 0;
 };
 
 #endif

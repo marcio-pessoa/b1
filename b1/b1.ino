@@ -173,17 +173,15 @@ void loop() {
 }
 
 /// @brief Left speed encoder count (Interrupt Service Routine).
-void countLeftISR() { count_left++; }
+void countLeftISR() { pid_controller.count_left++; }
 
 /// @brief Right speed encoder count ISR (Interrupt Service Routine).
-void countRightISR() { count_right++; }
+void countRightISR() { pid_controller.count_right++; }
 
 /// @brief interrupt
 void balancing() {
   sei();  // allow overall interrupt
 
-  pid_controller.count_left = count_left;
-  pid_controller.count_right = count_right;
   pid_controller.pulseright = pulseright;
   pid_controller.pulseleft = pulseleft;
   pid_controller.pwm1 = pwm1;
@@ -191,8 +189,6 @@ void balancing() {
 
   pid_controller.countpluse();  // pulse plus subfunction
 
-  count_left = pid_controller.count_left;
-  count_right = pid_controller.count_right;
   pulseright = pid_controller.pulseright;
   pulseleft = pid_controller.pulseleft;
   pwm1 = pid_controller.pwm1;
@@ -212,8 +208,6 @@ void balancing() {
 
     pid_controller.pulseright = pulseright;
     pid_controller.pulseleft = pulseleft;
-    pid_controller.speeds_filterold = speeds_filterold;
-    pid_controller.positions = positions;
     pid_controller.PI_pwm = PI_pwm;
     pid_controller.front = front;
     pid_controller.back = back;
@@ -222,8 +216,6 @@ void balancing() {
 
     pulseright = pid_controller.pulseright;
     pulseleft = pid_controller.pulseleft;
-    speeds_filterold = pid_controller.speeds_filterold;
-    positions = pid_controller.positions;
     PI_pwm = pid_controller.PI_pwm;
 
     cc = 0;  // Clear

@@ -72,16 +72,9 @@ double kp_turn = 24, ki_turn = 0, kd_turn = 0.08;  // steering loop parameter
 double setp0 = 0;                                  // angle balance point
 float pwm1 = 0, pwm2 = 0;
 
-////////////////// interrupt speed count /////////////////////////////
-volatile long count_right =
-    0;  // Used to calculate the pulse value calculated by the Hall encoder (the
-        // volatile long type is to ensure the value is valid)
-volatile long count_left = 0;
 ////////////////////// pulse count /////////////////////////
 int pulseright, pulseleft;
 //////////////////////////////// PI variable parameter
-float speeds_filterold = 0;
-float positions = 0;
 double PI_pwm;
 int cc;
 
