@@ -64,7 +64,4 @@ int turnmax, turnmin, turnout;
 float Turn_pwm = 0;
 int turncc = 0;
 
-// Bluetooth
-char val;
-
-int button;
+int i, button;

@@ -136,7 +136,8 @@ void loop() {
   }
 
   if (Serial.available()) {
-    val = Serial.read();  // assign the value read from the serial port to val
+    // assign the value read from the serial port to val
+    char val = Serial.read();
     Serial.println(val);
     // switch statement
     switch (val) {
