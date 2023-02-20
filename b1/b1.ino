@@ -185,8 +185,7 @@ void balancing() {
   mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
   // Calculate angle filtered by Professor Kálmán
-  pid_controller.angle_calculate(ax, ay, az, gx, gy, gz, deltaTime, Q_angle,
-                                 Q_gyro, R_angle, C_0, K1);
+  pid_controller.angle_calculate(ax, ay, az, gx, gy, gz);
 
   anglePWM();
 

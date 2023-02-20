@@ -24,8 +24,7 @@ class PIDcontroller {
   void speedpiout(double step0);
   void countpluse();
   void angle_calculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
-                       int16_t gy, int16_t gz, float dt, float Q_angle,
-                       float Q_gyro, float R_angle, float C_0, float K1);
+                       int16_t gy, int16_t gz);
 
   // PID parameter
   float pwm1 = 0, pwm2 = 0;
@@ -55,6 +54,14 @@ class PIDcontroller {
   float angle;
   float angle_speed;
   float angleY_one;
+
+  const float Q_angle = 0.001;  // Covariance of gyroscope noise
+  const float Q_gyro = 0.003;   // Covariance of gyroscope drift noise
+  const float R_angle = 0.5;    // Covariance of accelerometer
+  const char C_0 = 1;
+  const float deltaTime = 0.005;  // The value of dt is the filter sampling time
+  const float K1 = 0.05;  // a function containing the Kalman gain is used to
+                          // calculate the deviation of the optimal estimate
 
   // Kalman filter
   KalmanFilter kalman;
