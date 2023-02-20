@@ -191,7 +191,7 @@ void balancing() {
   cc++;
   // 5*8=40，enter PI algorithm of speed per 40ms
   if (cc >= 8) {
-    pid_controller.speedPIout(setp0);
+    pid_controller.speedPIout();
     cc = 0;  // Clear
   }
 
