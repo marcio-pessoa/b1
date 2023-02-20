@@ -145,10 +145,11 @@ void loop() {
     // switch statement
     switch (val) {
       case 'F':
-        front = 250;
-        break;  // if val equals F，front=250，car will move forward
+        pid_controller.front = 250;
+        break;  // if val equals F，pid_controller.front=250，car will move
+                // forward
       case 'B':
-        back = -250;
+        pid_controller.back = -250;
         break;  // go back
       case 'L':
         left = 1;
@@ -157,7 +158,7 @@ void loop() {
         right = 1;
         break;  // turn right
       case 'S':
-        front = 0, back = 0, left = 0, right = 0;
+        pid_controller.front = 0, pid_controller.back = 0, left = 0, right = 0;
         break;  // stop
       case 'D':
         Serial.print(angle);
@@ -203,8 +204,6 @@ void balancing() {
   if (cc >= 8) {
 
     pid_controller.PI_pwm = PI_pwm;
-    pid_controller.front = front;
-    pid_controller.back = back;
 
     pid_controller.speedpiout(setp0);
 

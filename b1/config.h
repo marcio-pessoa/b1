@@ -82,8 +82,6 @@ float Turn_pwm = 0;
 int turncc = 0;
 
 // Bluetooth
-int front = 0;  // forward variable
-int back = 0;   // backward
 int left = 0;   // turn left
 int right = 0;  // turn right
 char val;
