@@ -10,8 +10,8 @@
  */
 
 #include <Arduino.h>        // Main library
-#include <MPU6050.h>        // MPU6050 library
-#include <MsTimer2.h>       // internal timer 2
+#include <MPU6050.h>        // Accelerometer
+#include <MsTimer2.h>       // Internal timer 2
 #include <PinChangeInt.h>   // Arduino REV4 as external interrupt
 #include <Project.h>        // Basic project definitions
 #include <Wire.h>           // IIC communication library
@@ -36,17 +36,12 @@ Project b1("b1",                                        // Platform
 PIDcontroller pid_controller;
 
 // Motor Driver
-HBridge motor_left = HBridge(left_L1, left_L2, PWM_L);
-HBridge motor_right = HBridge(right_R1, right_R2, PWM_R);
+HBridge motor_left = HBridge(motor_left_pin1, motor_left_pin2, motor_left_pwm);
+HBridge motor_right =
+    HBridge(motor_right_pin1, motor_right_pin2, motor_right_pwm);
 
-// Instantiate an MPU6050 object; name mpu6050
+// Accelerometer
 MPU6050 mpu6050;
-
-// Define three-axis acceleration, three-axis gyroscope variables
-int16_t ax, ay, az, gx, gy, gz;
-
-#define PinA_left 5   // external interrupt, interrupt speed count
-#define PinA_right 4  // external interrupt, interrupt speed count
 
 void setup() {
   // Serial interface
@@ -64,8 +59,8 @@ void setup() {
   motor_right.backward(0);
   motor_left.forward(0);
 
-  pinMode(PinA_left, INPUT);  // speed encoder input
-  pinMode(PinA_right, INPUT);
+  pinMode(motor_left_encoder, INPUT);  // speed encoder input
+  pinMode(motor_right_encoder, INPUT);
 
   pinMode(button_pin, INPUT);
   pinMode(buzzer_pin, OUTPUT);
@@ -123,9 +118,9 @@ void loop() {
 
   // external interrupt; used to calculate the wheel speed
   // PinA_left Level change triggers the external interrupt
-  attachPinChangeInterrupt(PinA_left, countLeftISR, CHANGE);
-  // PinA_right Level change triggers the external interrupt
-  attachPinChangeInterrupt(PinA_right, countRightISR, CHANGE);
+  attachPinChangeInterrupt(motor_left_encoder, countLeftISR, CHANGE);
+  // right_encoder Level change triggers the external interrupt
+  attachPinChangeInterrupt(motor_right_encoder, countRightISR, CHANGE);
 }
 
 /// @brief Left speed encoder count (Interrupt Service Routine).

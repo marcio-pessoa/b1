@@ -6,42 +6,28 @@
  * Contributors: none
  */
 
-// LED
-// const byte led_status_pin = 13;
-
-// Temperature
-// const byte lm35_pin = 0;
-
-// Random number generator Seed pin
-// const byte random_Seed_pin = lm35_pin;
-
-// Timers
-// const byte health_check_timer = 2;  // seconds
-// const byte sensors_timer = 2;  // seconds
-// const byte standby_timer = 1;  // minute
-
-// System status (initial state)
-// byte general_status = UNKNOWN;
-
 // Debug mode
 bool debug_mode = false;
 
 // Serial speed: 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200
 const unsigned long serial_speed = 9600;
 
-// Move done
-// bool done = true;
-
 //
 const float FLIMIT = 340282350000000000000000000000000000000;
 
 // Motors
-const int right_R1 = 8;
-const int right_R2 = 12;
-const int PWM_R = 10;
-const int left_L1 = 7;
-const int left_L2 = 6;
-const int PWM_L = 9;
+const byte motor_right_pin1 = 8;
+const byte motor_right_pin2 = 12;
+const byte motor_right_pwm = 10;
+const byte motor_right_encoder = 4;
+
+const byte motor_left_pin1 = 7;
+const byte motor_left_pin2 = 6;
+const byte motor_left_pwm = 9;
+const byte motor_left_encoder = 5;
+
+// Define three-axis acceleration, three-axis gyroscope variables
+int16_t ax, ay, az, gx, gy, gz;
 
 // Buzzer
 const byte buzzer_pin = 11;
