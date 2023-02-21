@@ -26,9 +26,9 @@ Project b1("b1",                                        // Platform
            "I",                                         // Mark
            "Self Balancing Robot",                      // Name
            "0.1",                                       // Version
-           "2020-01-16",                                // Version date
+           "2023-01-16",                                // Version date
            "8",                                         // Serial number
-           "Copyright 2019-2020 Marcio Pessoa",         // Owner
+           "Copyright 2019-2023 Marcio Pessoa",         // Owner
            "GPLv2. There is NO WARRANTY.",              // License
            "https://github.com/marcio-pessoa/b1",       // Website
            "Marcio Pessoa <marcio.pessoa@gmail.com>");  // Contact
@@ -56,8 +56,8 @@ void setup() {
 
   // Start up message
   Serial.println("Starting...");
-  // CommandM92();  // System information
-  // GcodeReady();  // G-code ready to receive commands
+  CommandM92();  // System information
+  GcodeReady();  // G-code ready to receive commands
 
   motor_right.backward(0);
   motor_left.forward(0);
@@ -78,42 +78,13 @@ void setup() {
 }
 
 void loop() {
-  // GcodeCheck();
+  GcodeCheck();
 
   if (!button.check()) {
     angle_default = -pid_controller.angle;
     Serial.println(angle_default);
     buzzer();
   }
-
-  // if (Serial.available()) {
-  //   // assign the value read from the serial port to val
-  //   char val = Serial.read();
-  //   Serial.println(val);
-  //   // switch statement
-  //   switch (val) {
-  //     case 'F':
-  //       pid_controller.front = 250;
-  //       break;  // if val equals F，pid_controller.front=250，car will move
-  //               // forward
-  //     case 'B':
-  //       pid_controller.back = -250;
-  //       break;  // go back
-  //     case 'L':
-  //       pid_controller.left = 1;
-  //       break;  // urn left
-  //     case 'R':
-  //       pid_controller.right = 1;
-  //       break;  // turn right
-  //     case 'S':
-  //       pid_controller.front = 0, pid_controller.back = 0,
-  //       pid_controller.left = 0, pid_controller.right = 0;
-  //       break;  // stop
-  //     case 'D':
-  //       Serial.print(pid_controller.angle);
-  //       break;
-  //   }
-  // }
 
   // external interrupt; used to calculate the wheel speed
   // PinA_left Level change triggers the external interrupt

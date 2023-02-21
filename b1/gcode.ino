@@ -181,41 +181,18 @@ void GCodeParse() {
   switch (letter) {
     case 'G':
       switch (number) {
-        // case 0:
-        //   retval = CommandG0(GCodeNumber('X', FLIMIT), GCodeNumber('Y',
-        //   FLIMIT),
-        //                      GCodeNumber('Z', FLIMIT));
-        //   skip_status = true;
-        //   break;
-        // case 1:
-        //   retval = CommandG1(GCodeNumber('X', FLIMIT), GCodeNumber('Y',
-        //   FLIMIT),
-        //                      GCodeNumber('Z', FLIMIT));
-        //   skip_status = true;
-        //   break;
-        // case 2:
-        //   break;
-        // case 3:
-        //   retval = CommandG3(GCodeNumber('X', 0), GCodeNumber('Y', 0));
-        //   break;
-        // case 6:
-        //   retval = CommandG6(GCodeNumber('T', 0));
-        //   break;
-        // case 21:
-        //   break;
-        // case 28:
-        //   CommandG28();
-        //   skip_status = true;
-        //   break;
-        // case 90:
-        //   CommandG90();
-        //   break;
-        // case 91:
-        //   CommandG91();
-        //   break;
-        // case 132:
-        //   retval = CommandG132();
-        //   break;
+        case 21:
+          CommandG21();
+          break;
+        case 22:
+          CommandG22();
+          break;
+        case 41:
+          CommandG41();
+          break;
+        case 42:
+          CommandG42();
+          break;
         default:
           Command0();
           break;
@@ -223,58 +200,17 @@ void GCodeParse() {
       break;
     case 'M':
       switch (number) {
-        // case 0:
-        //   retval = CommandM0();
-        //   break;
-        // case 3:
-        // case 4:
-        //   retval = CommandM71();
-        //   break;
-        // case 5:
-        //   retval = CommandM72();
-        //   break;
-        // case 124:
-        //   retval = CommandM124();
-        //   break;
-        // case 17:
-        //   retval = CommandM17();
-        //   break;
-        // case 18:
-        // case 84:
-        //   CommandM18();
-        //   break;
-        // case 70:
-        //   CommandM70();
-        //   break;
-        // case 80:
-        //   retval = CommandM80();
-        //   break;
-        // case 81:
-        //   retval = CommandM81();
-        //   break;
-        // case 15:
-        //   CommandM15();
-        //   break;
-        // case 86:
-        //   retval = CommandM86();
-        //   break;
-        // case 87:
-        //   retval = CommandM87();
-        //   break;
-        // case 88:
-        //   retval = CommandM88(GCodeNumber('S', false));
-        //   break;
-        // case 89:
-        //   retval = CommandM89();
-        //   break;
-        // case 90:
-        //   retval = CommandM90();
-        //   break;
-        // case 91:
-        //   retval = CommandM91();
-        //   break;
+        case 0:
+          CommandM00();
+          break;
         case 92:
           CommandM92();
+          break;
+        case 93:
+          CommandM93();
+          break;
+        case 94:
+          CommandM94();
           break;
         case 99:
           CommandM99();
@@ -282,9 +218,6 @@ void GCodeParse() {
         case 100:
           CommandM100();
           break;
-        // case 111:
-        //   CommandM111();
-        //   break;
         default:
           Command0();
           break;
