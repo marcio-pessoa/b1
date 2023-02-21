@@ -15,16 +15,17 @@ const unsigned long serial_speed = 9600;
 //
 const float FLIMIT = 340282350000000000000000000000000000000;
 
-// Motors
-const byte right_pin1 = 8;
-const byte right_pin2 = 12;
-const byte right_pwm = 10;
-const byte right_encoder = 4;
-
+// Motor left
 const byte left_pin1 = 7;
 const byte left_pin2 = 6;
 const byte left_pwm = 9;
 const byte left_encoder = 5;
+
+// Motors right
+const byte right_pin1 = 8;
+const byte right_pin2 = 12;
+const byte right_pwm = 10;
+const byte right_encoder = 4;
 
 // Accelerometer
 int16_t ax, ay, az, gx, gy, gz;
