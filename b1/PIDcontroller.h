@@ -29,6 +29,7 @@ class PIDcontroller {
   void calculatePWM(float angle_default = 0);
   void speed();
   void guidance();
+  void run();
 
   // PID parameter
   float pwm1 = 0, pwm2 = 0;

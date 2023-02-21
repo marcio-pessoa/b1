@@ -203,3 +203,8 @@ void PIDcontroller::guidance() {
     guidance_counter = 0;  // Clear
   }
 }
+
+void PIDcontroller::run() {
+  speed();
+  guidance();
+}

@@ -105,11 +105,9 @@ void balancing() {
   pid_controller.countPulse();
   pid_controller.calculateAngle(ax, ay, az, gx, gy, gz);
   pid_controller.calculatePWM(angle_default);
+  pid_controller.run();
 
   moveMotors();
-
-  pid_controller.speed();
-  pid_controller.guidance();
 }
 
 /// @brief determine the motor steering and speed by negative and positive of
