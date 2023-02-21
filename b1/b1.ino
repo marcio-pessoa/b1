@@ -51,13 +51,14 @@ int16_t ax, ay, az, gx, gy, gz;
 void setup() {
   // Serial interface
   Serial.begin(serial_speed);
+
   // join I2C bus
   Wire.begin();
   delay(1500);
 
   // Start up message
   Serial.println("Starting...");
-  // CommandM92(); // System information
+  CommandM92();  // System information
   // GcodeReady();  // G-code ready to receive commands
 
   motor_right.backward(0);
@@ -79,46 +80,46 @@ void setup() {
 }
 
 void loop() {
-  // GcodeCheck();
+  GcodeCheck();
 
-  while (i < 1) {
-    button = digitalRead(button_pin);
-    if (button == 0) {
-      angle0 = -pid_controller.angle;
-      // Serial.println(angle0);
-      buzzer();
-      i++;
-    }
-  }
+  // while (i < 1) {
+  //   button = digitalRead(button_pin);
+  //   if (button == 0) {
+  //     angle0 = -pid_controller.angle;
+  //     // Serial.println(angle0);
+  //     buzzer();
+  //     i++;
+  //   }
+  // }
 
-  if (Serial.available()) {
-    // assign the value read from the serial port to val
-    char val = Serial.read();
-    Serial.println(val);
-    // switch statement
-    switch (val) {
-      case 'F':
-        pid_controller.front = 250;
-        break;  // if val equals F，pid_controller.front=250，car will move
-                // forward
-      case 'B':
-        pid_controller.back = -250;
-        break;  // go back
-      case 'L':
-        pid_controller.left = 1;
-        break;  // urn left
-      case 'R':
-        pid_controller.right = 1;
-        break;  // turn right
-      case 'S':
-        pid_controller.front = 0, pid_controller.back = 0,
-        pid_controller.left = 0, pid_controller.right = 0;
-        break;  // stop
-      case 'D':
-        Serial.print(pid_controller.angle);
-        break;
-    }
-  }
+  // if (Serial.available()) {
+  //   // assign the value read from the serial port to val
+  //   char val = Serial.read();
+  //   Serial.println(val);
+  //   // switch statement
+  //   switch (val) {
+  //     case 'F':
+  //       pid_controller.front = 250;
+  //       break;  // if val equals F，pid_controller.front=250，car will move
+  //               // forward
+  //     case 'B':
+  //       pid_controller.back = -250;
+  //       break;  // go back
+  //     case 'L':
+  //       pid_controller.left = 1;
+  //       break;  // urn left
+  //     case 'R':
+  //       pid_controller.right = 1;
+  //       break;  // turn right
+  //     case 'S':
+  //       pid_controller.front = 0, pid_controller.back = 0,
+  //       pid_controller.left = 0, pid_controller.right = 0;
+  //       break;  // stop
+  //     case 'D':
+  //       Serial.print(pid_controller.angle);
+  //       break;
+  //   }
+  // }
 
   // external interrupt; used to calculate the wheel speed
   // PinA_left Level change triggers the external interrupt

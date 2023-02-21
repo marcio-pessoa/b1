@@ -51,7 +51,7 @@ void CommandM100(char letter = 0) {
     // echoln(F("M91\tTemperature information"));
     echoln(F("M92\tSystem information"));
     echoln(F("M99\tReset system"));
-    // echoln(F("M100\tThis help message"));
+    echoln(F("M100\tThis help message"));
     // echoln(F("M111\tDebug mode"));
     // echoln(F("M124\tStop all axes"));
   }
@@ -105,24 +105,6 @@ void CommandM100(char letter = 0) {
 //  power.set(LOW);
 //  return power.status();
 //}
-
-/*
- *
- * Description
- *   .
- *
- *   ()
- *
- * Parameters
- *   none
- *
- * Returns
- *   void
- */
-void CommandM99() {
-  echoln("Reseting...\n");
-  b1.reset();
-}
 
 /*
  *
@@ -264,6 +246,24 @@ void CommandM92() {
   }
 }
 
+/*
+ *
+ * Description
+ *   .
+ *
+ *   ()
+ *
+ * Parameters
+ *   none
+ *
+ * Returns
+ *   void
+ */
+void CommandM99() {
+  echoln("Reseting...\n");
+  b1.reset();
+}
+
 /* CommandM0
  *
  * Description
@@ -315,9 +315,7 @@ void CommandM92() {
  * Returns
  *   void
  */
-// void Command0() {
-// echoln(F("Unknown command"));
-//}
+void Command0() { echoln(F("Unknown command")); }
 
 /* CommandM18
  *

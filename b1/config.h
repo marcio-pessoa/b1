@@ -33,7 +33,7 @@ const unsigned long serial_speed = 9600;
 // bool done = true;
 
 //
-// const float FLIMIT = 340282350000000000000000000000000000000;
+const float FLIMIT = 340282350000000000000000000000000000000;
 
 // Motors
 const int right_R1 = 8;
