@@ -35,17 +35,11 @@ class PIDcontroller {
   // angle loop parameter
   const double kp = 34, ki = 0, kd = 0.62;
 
-  // turning PD
-  float Turn_pwm = 0;
-
   //
   int front = 0;  // forward variable
   int back = 0;   // backward
   int left = 0;   // turn left
   int right = 0;  // turn right
-
-  // PI variable parameter
-  double PI_pwm;
 
   // interrupt speed count
   // Used to calculate the pulse value calculated by the Hall encoder
@@ -56,7 +50,6 @@ class PIDcontroller {
   // Kalman filter
   float angle;
   float angle_speed;
-  float angleY_one;
 
  private:
   // Kalman filter
@@ -67,6 +60,7 @@ class PIDcontroller {
   const float deltaTime = 0.005;  // The value of dt is the filter sampling time
   const float K1 = 0.05;  // a function containing the Kalman gain is used to
                           // calculate the deviation of the optimal estimate
+  // float angleY_one;
 
   KalmanFilter kalman = KalmanFilter(deltaTime, Q_angle, Q_gyro, C_0, R_angle);
 
@@ -75,6 +69,7 @@ class PIDcontroller {
   const double kp_turn = 24, ki_turn = 0, kd_turn = 0.08;
 
   // PI variable parameter
+  double PI_pwm;
   float speeds_filterold = 0;
   float positions = 0;
 
@@ -88,6 +83,7 @@ class PIDcontroller {
   float Gyro_z;
 
   // turning PD
+  float Turn_pwm = 0;
   int turnmax, turnmin, turnout;
 
   // pulse count

@@ -101,7 +101,7 @@ void PIDcontroller::angleCalculate(int16_t ax, int16_t ay, int16_t az,
   float Gyro_y = -gy / 131.00;  // angle speed of Y-axis
 
   // first-order filtering
-  angleY_one = K1 * angleAx + (1 - K1) * (angleY_one + Gyro_y * deltaTime);
+  // angleY_one = K1 * angleAx + (1 - K1) * (angleY_one + Gyro_y * deltaTime);
 
   // rotating angle Z-axis parameter
   Gyro_z = -gz / 131;  // angle speed of Z-axis

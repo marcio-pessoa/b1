@@ -139,7 +139,7 @@ void balancing() {
   pid_controller.angleCalculate(ax, ay, az, gx, gy, gz);
   pid_controller.calculatePWM(angle_default);
 
-  setMotor();
+  setMotors();
 
   speed_counter++;
   // 5*8=40，enter PI algorithm of speed per 40ms
@@ -158,7 +158,7 @@ void balancing() {
 
 /// @brief determine the motor steering and speed by negative and positive of
 /// PWM
-void setMotor() {
+void setMotors() {
   if (pid_controller.pwm2 >= 0) {
     motor_left.forward(pid_controller.pwm2);
   } else {
