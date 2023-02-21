@@ -11,117 +11,26 @@
 char buffer[BUFFER_SIZE];
 int buffer_pointer = 0;
 
-/*
- *
- * Description
- *   .
- *
- *   ()
- *
- * Parameters
- *   none
- *
- * Returns
- *   void
- */
 bool echo(String message) { Serial.print(String(message)); }
 
-/*
- *
- * Description
- *   .
- *
- *   ()
- *
- * Parameters
- *   none
- *
- * Returns
- *   void
- */
 bool echoln(String message) { echo(message + "\n"); }
 
-/*
- *
- * Description
- *   .
- *
- *   ()
- *
- * Parameters
- *   none
- *
- * Returns
- *   void
- */
 void debug(String message) {
   if (debug_mode) {
     echo(message);
   }
 }
 
-/*
- *
- * Description
- *   .
- *
- *   ()
- *
- * Parameters
- *   none
- *
- * Returns
- *   void
- */
 void debugln(String message) {
   if (debug_mode) {
     echoln(message);
   }
 }
 
-/*
- *
- * Description
- *   .
- *
- *   ()
- *
- * Parameters
- *   none
- *
- * Returns
- *   void
- */
 void status(bool i) { echoln(i == false ? F("ok") : F("nok")); }
 
-/*
- *
- * Description
- *   .
- *
- *   ()
- *
- * Parameters
- *   none
- *
- * Returns
- *   void
- */
 void GcodeReady() { buffer_pointer = 0; }
 
-/*
- *
- * Description
- *   .
- *
- *   ()
- *
- * Parameters
- *   none
- *
- * Returns
- *   void
- */
 void GcodeCheck() {
   while (Serial.available() > 0) {
     char c = Serial.read();
@@ -136,19 +45,6 @@ void GcodeCheck() {
   }
 }
 
-/*
- *
- * Description
- *   .
- *
- *   ()
- *
- * Parameters
- *   none
- *
- * Returns
- *   void
- */
 float GCodeNumber(char code, float val) {
   char *ptr = buffer;
   while (ptr && *ptr && ptr < buffer + buffer_pointer) {
@@ -160,19 +56,6 @@ float GCodeNumber(char code, float val) {
   return val;
 }
 
-/*
- *
- * Description
- *   .
- *
- *   ()
- *
- * Parameters
- *   none
- *
- * Returns
- *   void
- */
 void GCodeParse() {
   bool retval = false;
   bool skip_status = false;
