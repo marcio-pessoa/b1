@@ -6,21 +6,19 @@
  * Contributors: none
  */
 
-// bool AxesHandler() {
-// }
-
-// void DemonstrationHandler() {
-// }
-
-// void HealthCheckHandler() {
-// status_led.blink();
-//}
-
-// void NotificationHandler() {
-// }
-
-// void PowerHandler() {
-// }
-
-// void SensorsHandler() {
-// }
+/// @brief
+void buzzer() {
+  for (int i = 0; i < 50; i++) {
+    digitalWrite(buzzer_pin, HIGH);
+    delay(1);
+    digitalWrite(buzzer_pin, LOW);
+    delay(1);
+  }
+  delay(50);
+  for (int i = 0; i < 50; i++) {
+    digitalWrite(buzzer_pin, HIGH);
+    delay(1);
+    digitalWrite(buzzer_pin, LOW);
+    delay(1);
+  }
+}

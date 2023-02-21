@@ -36,9 +36,8 @@ Project b1("b1",                                        // Platform
 PIDcontroller pid_controller;
 
 // Motor Driver
-HBridge motor_left = HBridge(motor_left_pin1, motor_left_pin2, motor_left_pwm);
-HBridge motor_right =
-    HBridge(motor_right_pin1, motor_right_pin2, motor_right_pwm);
+HBridge motor_left = HBridge(left_pin1, left_pin2, left_pwm);
+HBridge motor_right = HBridge(right_pin1, right_pin2, right_pwm);
 
 // Accelerometer
 MPU6050 mpu6050;
@@ -59,8 +58,9 @@ void setup() {
   motor_right.backward(0);
   motor_left.forward(0);
 
-  pinMode(motor_left_encoder, INPUT);  // speed encoder input
-  pinMode(motor_right_encoder, INPUT);
+  // speed encoder input
+  pinMode(left_encoder, INPUT);
+  pinMode(right_encoder, INPUT);
 
   pinMode(button_pin, INPUT);
   pinMode(buzzer_pin, OUTPUT);
@@ -118,9 +118,9 @@ void loop() {
 
   // external interrupt; used to calculate the wheel speed
   // PinA_left Level change triggers the external interrupt
-  attachPinChangeInterrupt(motor_left_encoder, countLeftISR, CHANGE);
+  attachPinChangeInterrupt(left_encoder, countLeftISR, CHANGE);
   // right_encoder Level change triggers the external interrupt
-  attachPinChangeInterrupt(motor_right_encoder, countRightISR, CHANGE);
+  attachPinChangeInterrupt(right_encoder, countRightISR, CHANGE);
 }
 
 /// @brief Left speed encoder count (Interrupt Service Routine).
@@ -196,22 +196,5 @@ void anglePWM() {
     motor_right.forward(pid_controller.pwm1);
   } else {
     motor_right.backward(pid_controller.pwm1);
-  }
-}
-
-/// @brief
-void buzzer() {
-  for (int i = 0; i < 50; i++) {
-    digitalWrite(buzzer_pin, HIGH);
-    delay(1);
-    digitalWrite(buzzer_pin, LOW);
-    delay(1);
-  }
-  delay(50);
-  for (int i = 0; i < 50; i++) {
-    digitalWrite(buzzer_pin, HIGH);
-    delay(1);
-    digitalWrite(buzzer_pin, LOW);
-    delay(1);
   }
 }

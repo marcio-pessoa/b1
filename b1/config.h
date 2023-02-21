@@ -16,17 +16,17 @@ const unsigned long serial_speed = 9600;
 const float FLIMIT = 340282350000000000000000000000000000000;
 
 // Motors
-const byte motor_right_pin1 = 8;
-const byte motor_right_pin2 = 12;
-const byte motor_right_pwm = 10;
-const byte motor_right_encoder = 4;
+const byte right_pin1 = 8;
+const byte right_pin2 = 12;
+const byte right_pwm = 10;
+const byte right_encoder = 4;
 
-const byte motor_left_pin1 = 7;
-const byte motor_left_pin2 = 6;
-const byte motor_left_pwm = 9;
-const byte motor_left_encoder = 5;
+const byte left_pin1 = 7;
+const byte left_pin2 = 6;
+const byte left_pwm = 9;
+const byte left_encoder = 5;
 
-// Define three-axis acceleration, three-axis gyroscope variables
+// Accelerometer
 int16_t ax, ay, az, gx, gy, gz;
 
 // Buzzer
