@@ -27,8 +27,8 @@ class PIDcontroller {
                       int16_t gy, int16_t gz);
   void turnspin();
   void calculatePWM(float angle_default = 0);
-  void speed(){};
-  void guidance(){};
+  void speed();
+  void guidance();
 
   // PID parameter
   float pwm1 = 0, pwm2 = 0;

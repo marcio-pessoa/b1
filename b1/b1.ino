@@ -10,6 +10,7 @@
  */
 
 #include <Arduino.h>        // Main library
+#include <Debounce.h>       // Avoid Bounce Effect Library
 #include <MPU6050.h>        // Accelerometer
 #include <MsTimer2.h>       // Internal timer 2
 #include <PinChangeInt.h>   // Arduino REV4 as external interrupt
@@ -42,6 +43,9 @@ HBridge motor_right = HBridge(right_pin1, right_pin2, right_pwm);
 // Accelerometer
 MPU6050 mpu6050;
 
+// Debounce
+Debounce button = Debounce(button_pin);
+
 void setup() {
   // Serial interface
   Serial.begin(serial_speed);
@@ -62,7 +66,6 @@ void setup() {
   pinMode(left_encoder, INPUT);
   pinMode(right_encoder, INPUT);
 
-  pinMode(button_pin, INPUT);
   pinMode(buzzer_pin, OUTPUT);
 
   mpu6050.initialize();
@@ -77,15 +80,11 @@ void setup() {
 void loop() {
   // GcodeCheck();
 
-  // while (i < 1) {
-  //   button = digitalRead(button_pin);
-  //   if (button == 0) {
-  //     angle_default = -pid_controller.angle;
-  //     // Serial.println(angle_default);
-  //     buzzer();
-  //     i++;
-  //   }
-  // }
+  if (!button.check()) {
+    angle_default = -pid_controller.angle;
+    Serial.println(angle_default);
+    buzzer();
+  }
 
   // if (Serial.available()) {
   //   // assign the value read from the serial port to val
