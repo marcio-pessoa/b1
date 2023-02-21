@@ -65,12 +65,12 @@ void setup() {
   pinMode(button_pin, INPUT);
   pinMode(buzzer_pin, OUTPUT);
 
-  mpu6050.initialize();  // initialize MPU6050
+  mpu6050.initialize();
   delay(2);
 
   // 5ms; use timer2 to set the timer interrupt (note: using timer2 may affects
   // the PWM output of pin3 pin11)
-  MsTimer2::set(5, balancing);  // 5ms; execute the function DSzhongduan once
+  MsTimer2::set(5, balancing);  // 5ms; execute the function balancing once
   MsTimer2::start();            // start interrupt
 }
 
