@@ -157,3 +157,31 @@ void PIDcontroller::turnspin() {
   // turning PD algorithm control
   Turn_pwm = -turnout * kp_turn - Gyro_z * kd_turn;
 }
+
+void PIDcontroller::calculatePWM(float angle_default) {
+  // angle loop PD control
+  int PD_pwm = kp * (angle + angle_default) + kd * angle_speed;
+
+  // assign the end value of PWM to motor
+  pwm2 = -PD_pwm - PI_pwm + Turn_pwm;
+  pwm1 = -PD_pwm - PI_pwm - Turn_pwm;
+
+  // limit PWM value not greater than255
+  if (pwm1 > 255) {
+    pwm1 = 255;
+  }
+  if (pwm1 < -255) {
+    pwm1 = -255;
+  }
+  if (pwm2 > 255) {
+    pwm2 = 255;
+  }
+  if (pwm2 < -255) {
+    pwm2 = -255;
+  }
+
+  // if tilt angle is greater than 45°，motor will stop
+  if (angle > 45 || angle < -45) {
+    pwm1 = pwm2 = 0;
+  }
+}

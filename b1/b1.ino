@@ -52,7 +52,7 @@ void setup() {
 
   // Start up message
   Serial.println("Starting...");
-  CommandM92();  // System information
+  // CommandM92();  // System information
   // GcodeReady();  // G-code ready to receive commands
 
   motor_right.backward(0);
@@ -75,7 +75,7 @@ void setup() {
 }
 
 void loop() {
-  GcodeCheck();
+  // GcodeCheck();
 
   // while (i < 1) {
   //   button = digitalRead(button_pin);
@@ -137,8 +137,9 @@ void balancing() {
 
   pid_controller.countPulse();
   pid_controller.angleCalculate(ax, ay, az, gx, gy, gz);
+  pid_controller.calculatePWM(angle_default);
 
-  anglePWM();
+  setMotor();
 
   speed_counter++;
   // 5*8=40，enter PI algorithm of speed per 40ms
@@ -155,37 +156,9 @@ void balancing() {
   }
 }
 
-/// @brief PWM end value
-void anglePWM() {
-  // angle loop PD control
-  int PD_pwm = pid_controller.kp * (pid_controller.angle + angle_default) +
-               pid_controller.kd * pid_controller.angle_speed;
-
-  // assign the end value of PWM to motor
-  pid_controller.pwm2 =
-      -PD_pwm - pid_controller.PI_pwm + pid_controller.Turn_pwm;
-  pid_controller.pwm1 =
-      -PD_pwm - pid_controller.PI_pwm - pid_controller.Turn_pwm;
-
-  // limit PWM value not greater than255
-  if (pid_controller.pwm1 > 255) {
-    pid_controller.pwm1 = 255;
-  }
-  if (pid_controller.pwm1 < -255) {
-    pid_controller.pwm1 = -255;
-  }
-  if (pid_controller.pwm2 > 255) {
-    pid_controller.pwm2 = 255;
-  }
-  if (pid_controller.pwm2 < -255) {
-    pid_controller.pwm2 = -255;
-  }
-
-  // if tilt angle is greater than 45°，motor will stop
-  if (pid_controller.angle > 45 || pid_controller.angle < -45) {
-    pid_controller.pwm1 = pid_controller.pwm2 = 0;
-  }
-  // determine the motor steering and speed by negative and positive of PWM
+/// @brief determine the motor steering and speed by negative and positive of
+/// PWM
+void setMotor() {
   if (pid_controller.pwm2 >= 0) {
     motor_left.forward(pid_controller.pwm2);
   } else {
