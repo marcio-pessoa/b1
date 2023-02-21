@@ -85,8 +85,8 @@ void loop() {
   // while (i < 1) {
   //   button = digitalRead(button_pin);
   //   if (button == 0) {
-  //     angle0 = -pid_controller.angle;
-  //     // Serial.println(angle0);
+  //     angle_default = -pid_controller.angle;
+  //     // Serial.println(angle_default);
   //     buzzer();
   //     i++;
   //   }
@@ -163,7 +163,7 @@ void balancing() {
 /// @brief PWM end value
 void anglePWM() {
   // angle loop PD control
-  int PD_pwm = pid_controller.kp * (pid_controller.angle + angle0) +
+  int PD_pwm = pid_controller.kp * (pid_controller.angle + angle_default) +
                pid_controller.kd * pid_controller.angle_speed;
 
   // assign the end value of PWM to motor

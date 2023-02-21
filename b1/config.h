@@ -48,7 +48,7 @@ const byte buzzer_pin = 11;
 
 // Calibration
 const byte button_pin = 13;
-float angle0 = 0;  // mechanical balance angle (ideally 0 degrees)
+float angle_default = 0;  // mechanical balance angle (ideally 0 degrees)
 
 // PI (Proportional Integral)
 int speed_counter;
