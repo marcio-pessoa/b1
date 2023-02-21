@@ -185,3 +185,21 @@ void PIDcontroller::calculatePWM(float angle_default) {
     pwm1 = pwm2 = 0;
   }
 }
+
+void PIDcontroller::speed() {
+  speed_counter++;
+  // 5*8=40，enter PI algorithm of speed per 40ms
+  if (speed_counter >= speed_counter_limit) {
+    speedPIout();
+    speed_counter = 0;  // Clear
+  }
+}
+
+void PIDcontroller::guidance() {
+  guidance_counter++;
+  // 20ms; enter PD algorithm of steering
+  if (guidance_counter > guidance_counter_limit) {
+    turnspin();
+    guidance_counter = 0;  // Clear
+  }
+}

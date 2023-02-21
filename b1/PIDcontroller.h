@@ -27,6 +27,8 @@ class PIDcontroller {
                       int16_t gy, int16_t gz);
   void turnspin();
   void calculatePWM(float angle_default = 0);
+  void speed(){};
+  void guidance(){};
 
   // PID parameter
   float pwm1 = 0, pwm2 = 0;
@@ -88,6 +90,14 @@ class PIDcontroller {
 
   // pulse count
   int pulseright, pulseleft;
+
+  // PI (Proportional Integral)
+  int speed_counter;
+  const int speed_counter_limit = 8;
+
+  // PD (Proportional Derivative)
+  int guidance_counter = 0;
+  const int guidance_counter_limit = 4;
 };
 
 #endif

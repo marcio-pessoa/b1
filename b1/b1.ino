@@ -141,19 +141,8 @@ void balancing() {
 
   setMotors();
 
-  speed_counter++;
-  // 5*8=40，enter PI algorithm of speed per 40ms
-  if (speed_counter >= speed_counter_limit) {
-    pid_controller.speedPIout();
-    speed_counter = 0;  // Clear
-  }
-
-  guidance_counter++;
-  // 20ms; enter PD algorithm of steering
-  if (guidance_counter > guidance_counter_limit) {
-    pid_controller.turnspin();
-    guidance_counter = 0;  // Clear
-  }
+  pid_controller.speed();
+  pid_controller.guidance();
 }
 
 /// @brief determine the motor steering and speed by negative and positive of
