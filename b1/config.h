@@ -18,14 +18,14 @@ const float FLIMIT = 340282350000000000000000000000000000000;
 // Motor left
 const byte left_pin1 = 7;
 const byte left_pin2 = 6;
-const byte left_pwm = 9;
-const byte left_encoder = 5;
+const byte left_pwm_pin = 9;
+const byte left_encoder_pin = 5;
 
 // Motors right
 const byte right_pin1 = 8;
 const byte right_pin2 = 12;
-const byte right_pwm = 10;
-const byte right_encoder = 4;
+const byte right_pwm_pin = 10;
+const byte right_encoder_pin = 4;
 
 // Accelerometer
 int16_t ax, ay, az, gx, gy, gz;

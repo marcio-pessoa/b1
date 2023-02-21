@@ -37,8 +37,8 @@ Project b1("b1",                                        // Platform
 PIDcontroller pid_controller;
 
 // Motor Driver
-HBridge motor_left = HBridge(left_pin1, left_pin2, left_pwm);
-HBridge motor_right = HBridge(right_pin1, right_pin2, right_pwm);
+HBridge motor_left = HBridge(left_pin1, left_pin2, left_pwm_pin);
+HBridge motor_right = HBridge(right_pin1, right_pin2, right_pwm_pin);
 
 // Accelerometer
 MPU6050 mpu6050;
@@ -62,17 +62,17 @@ void setup() {
   motor_right.backward(0);
   motor_left.forward(0);
 
-  // speed encoder input
-  pinMode(left_encoder, INPUT);
-  pinMode(right_encoder, INPUT);
+  // Motor speed encoder input
+  pinMode(left_encoder_pin, INPUT);
+  pinMode(right_encoder_pin, INPUT);
 
   pinMode(buzzer_pin, OUTPUT);
 
   mpu6050.initialize();
   delay(2);
 
-  // 5ms; use timer2 to set the timer interrupt (note: using timer2 may affects
-  // the PWM output of pin3 pin11)
+  // Set the timer interrupt
+  // note: using timer2 may affects the PWM output of pin3 pin11
   MsTimer2::set(5, balancing);  // 5ms; execute the function balancing once
   MsTimer2::start();            // start interrupt
 }
@@ -86,14 +86,11 @@ void loop() {
     buzzer();
   }
 
-  // external interrupt; used to calculate the wheel speed
-  // PinA_left Level change triggers the external interrupt
-  attachPinChangeInterrupt(left_encoder, countLeftISR, CHANGE);
-  // right_encoder Level change triggers the external interrupt
-  attachPinChangeInterrupt(right_encoder, countRightISR, CHANGE);
+  attachPinChangeInterrupt(left_encoder_pin, countLeftISR, CHANGE);
+  attachPinChangeInterrupt(right_encoder_pin, countRightISR, CHANGE);
 }
 
-/// @brief Left speed encoder count (Interrupt Service Routine).
+/// @brief Left speed encoder count ISR (Interrupt Service Routine).
 void countLeftISR() { pid_controller.count_left++; }
 
 /// @brief Right speed encoder count ISR (Interrupt Service Routine).
@@ -109,7 +106,7 @@ void balancing() {
   pid_controller.calculateAngle(ax, ay, az, gx, gy, gz);
   pid_controller.calculatePWM(angle_default);
 
-  setMotors();
+  moveMotors();
 
   pid_controller.speed();
   pid_controller.guidance();
@@ -117,7 +114,7 @@ void balancing() {
 
 /// @brief determine the motor steering and speed by negative and positive of
 /// PWM
-void setMotors() {
+void moveMotors() {
   if (pid_controller.pwm2 >= 0) {
     motor_left.forward(pid_controller.pwm2);
   } else {
