@@ -23,7 +23,7 @@ class PIDcontroller {
   PIDcontroller();
   void speedPIout(double step0 = 0);
   void countPulse();
-  void angleCalculate(int16_t ax, int16_t ay, int16_t az, int16_t gx,
+  void calculateAngle(int16_t ax, int16_t ay, int16_t az, int16_t gx,
                       int16_t gy, int16_t gz);
   void turnspin();
   void calculatePWM(float angle_default = 0);

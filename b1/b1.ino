@@ -106,7 +106,7 @@ void balancing() {
   mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);  // MPU6050 six axis data
 
   pid_controller.countPulse();
-  pid_controller.angleCalculate(ax, ay, az, gx, gy, gz);
+  pid_controller.calculateAngle(ax, ay, az, gx, gy, gz);
   pid_controller.calculatePWM(angle_default);
 
   setMotors();
