@@ -86,6 +86,11 @@ void loop() {
     buzzer();
   }
 
+  checkISR();
+}
+
+/// @brief Check for interrupts from motor encoders
+void checkISR() {
   attachPinChangeInterrupt(left_encoder_pin, countLeftISR, CHANGE);
   attachPinChangeInterrupt(right_encoder_pin, countRightISR, CHANGE);
 }
