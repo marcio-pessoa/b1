@@ -78,7 +78,7 @@ void setup() {
 }
 
 void loop() {
-  GcodeCheck();
+  checkGcode();
 
   if (!button.check()) {
     angle_default = -pid_controller.angle;

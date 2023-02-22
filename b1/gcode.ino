@@ -31,7 +31,7 @@ void status(bool i) { echoln(i == false ? F("ok") : F("nok")); }
 
 void GcodeReady() { buffer_pointer = 0; }
 
-void GcodeCheck() {
+void checkGcode() {
   while (Serial.available() > 0) {
     char c = Serial.read();
     if (buffer_pointer < BUFFER_SIZE - 1) {
