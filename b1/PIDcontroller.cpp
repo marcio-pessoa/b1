@@ -83,6 +83,8 @@ void PIDcontroller::countPulse() {
 /// @param gz
 void PIDcontroller::calculateAngle(int16_t ax, int16_t ay, int16_t az,
                                    int16_t gx, int16_t gy, int16_t gz) {
+  countPulse();
+
   // Radial rotation angle calculation formula; negative sign is direction
   // processing
   float sensorAngle = -atan2(ay, az) * (180 / PI);

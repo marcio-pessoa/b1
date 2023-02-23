@@ -105,9 +105,8 @@ void countRightISR() { pid_controller.count_right++; }
 void balancing() {
   sei();  // allow overall interrupt
 
-  mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);  // MPU6050 six axis data
+  mpu6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
-  pid_controller.countPulse();
   pid_controller.calculateAngle(ax, ay, az, gx, gy, gz);
   pid_controller.calculatePWM(angle_default);
   pid_controller.run();
