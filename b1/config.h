@@ -7,7 +7,7 @@
  */
 
 // Debug mode
-bool debug_mode = false;
+const bool debug_mode = false;
 
 // Serial speed: 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200
 const unsigned long serial_speed = 9600;
