@@ -27,12 +27,8 @@ const byte right_pin2 = 12;
 const byte right_pwm_pin = 10;
 const byte right_encoder_pin = 4;
 
-// Accelerometer
-int16_t ax, ay, az, gx, gy, gz;
-
 // Buzzer
 const byte buzzer_pin = 11;
 
 // Calibration
 const byte button_pin = 13;
-float angle_default = 0;  // mechanical balance angle (ideally 0 degrees)

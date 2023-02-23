@@ -42,9 +42,11 @@ HBridge motor_right = HBridge(right_pin1, right_pin2, right_pwm_pin);
 
 // Accelerometer
 MPU6050 mpu6050;
+int16_t ax, ay, az, gx, gy, gz;
 
-// Debounce
+// Calibration button (debounced)
 Debounce button = Debounce(button_pin);
+float angle_default = 0;  // mechanical balance angle (ideally 0 degrees)
 
 void setup() {
   // Serial interface
