@@ -34,10 +34,6 @@ class PIDcontroller {
   // PID parameter
   float pwm1 = 0, pwm2 = 0;
 
-  // PID parameter
-  // angle loop parameter
-  const double kp = 34, ki = 0, kd = 0.62;
-
   //
   int front = 0;  // forward variable
   int back = 0;   // backward
@@ -56,25 +52,29 @@ class PIDcontroller {
 
  private:
   // Kalman filter
-  const float Q_angle = 0.001;  // Covariance of gyroscope noise
-  const float Q_gyro = 0.003;   // Covariance of gyroscope drift noise
-  const float R_angle = 0.5;    // Covariance of accelerometer
-  const char C_0 = 1;
-  const float deltaTime = 0.005;  // The value of dt is the filter sampling time
-  const float K1 = 0.05;  // a function containing the Kalman gain is used to
-                          // calculate the deviation of the optimal estimate
+  const float _Q_angle = 0.001;  // Covariance of gyroscope noise
+  const float _Q_gyro = 0.003;   // Covariance of gyroscope drift noise
+  const float _R_angle = 0.5;    // Covariance of accelerometer
+  const char _C_0 = 1;
+  const float _delta_time =
+      0.005;               // The value of dt is the filter sampling time
+  const float _K1 = 0.05;  // a function containing the Kalman gain is used to
+                           // calculate the deviation of the optimal estimate
   // float angleY_one;
 
-  KalmanFilter kalman = KalmanFilter(deltaTime, Q_angle, Q_gyro, C_0, R_angle);
+  KalmanFilter _kalman =
+      KalmanFilter(_delta_time, _Q_angle, _Q_gyro, _C_0, _R_angle);
 
   // PID parameter
   // steering loop parameter
-  const double kp_turn = 24, ki_turn = 0, kd_turn = 0.08;
+  const double _kp_turn = 24, _ki_turn = 0, _kd_turn = 0.08;
+  // angle loop parameter
+  const double _kp = 34, _ki = 0, _kd = 0.62;
 
   // PI variable parameter
-  double PI_pwm;
-  float speeds_filterold = 0;
-  float positions = 0;
+  double _PI_pwm;
+  float _speeds_filterold = 0;
+  float _positions = 0;
 
   // pulse count
   int _lz = 0;
@@ -83,22 +83,22 @@ class PIDcontroller {
   int _lpluse = 0;
 
   // Angular angular velocity by gyroscope calculation
-  float Gyro_z;
+  float _Gyro_z;
 
   // turning PD
-  float Turn_pwm = 0;
-  int turnmax, turnmin, turnout;
+  float _Turn_pwm = 0;
+  int _turnmax, _turnmin, _turnout;
 
   // pulse count
-  int pulseright, pulseleft;
+  int _pulseright, _pulseleft;
 
   // PI (Proportional Integral)
-  int speed_counter;
-  const int speed_counter_limit = 8;
+  int _speed_counter;
+  const int _speed_counter_limit = 8;
 
   // PD (Proportional Derivative)
-  int guidance_counter = 0;
-  const int guidance_counter_limit = 4;
+  int _guidance_counter = 0;
+  const int _guidance_counter_limit = 4;
 };
 
 #endif

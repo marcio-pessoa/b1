@@ -24,7 +24,7 @@ class KalmanFilter {
   float _pDot[4] = {0, 0, 0, 0};
   float _p[2][2] = {{1, 0}, {0, 1}};
   float _q_bias;  // gyroscope drift
-  float _dt;
+  float _delta_time;
   float _q_angle;
   float _q_gyro;
   float _r_angle;
