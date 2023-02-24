@@ -81,13 +81,7 @@ void setup() {
 
 void loop() {
   checkGcode();
-
-  if (!button.check()) {
-    angle_default = -pid_controller.angle;
-    Serial.println(angle_default);
-    buzzer();
-  }
-
+  checkButton();
   checkISR();
 }
 
@@ -102,6 +96,15 @@ void countLeftISR() { pid_controller.count_left++; }
 
 /// @brief Right speed encoder count ISR (Interrupt Service Routine).
 void countRightISR() { pid_controller.count_right++; }
+
+/// @brief Check calibration button
+void checkButton() {
+  if (!button.check()) {
+    angle_default = -pid_controller.angle;
+    Serial.println(angle_default);
+    buzzer();
+  }
+}
 
 /// @brief interrupt
 void balancing() {
